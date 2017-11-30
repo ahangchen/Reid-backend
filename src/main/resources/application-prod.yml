@@ -1,0 +1,5 @@
+server:
+  port: 9000
+
+fileServer:
+  host: "http://222.201.145.237:8888/"

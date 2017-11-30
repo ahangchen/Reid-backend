@@ -1,4 +1,4 @@
-package scut.cwh.reid;
+package scut.cwh.reid.domain;
 
 public class Greeting {
     private final long id;

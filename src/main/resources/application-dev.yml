@@ -1,0 +1,12 @@
+server:
+  port: 8081
+
+fileServer:
+  host: "http://222.201.145.237:8888/"
+
+spring:
+  datasource:
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://127.0.0.1:3306/dbgirl
+      username: root
+      password: 0
