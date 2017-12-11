@@ -1,9 +1,11 @@
 spring:
   profiles:
     active: dev
-
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+#  jpa:
+#    hibernate:
+#      ddl-auto: update
+#    show-sql: true
 

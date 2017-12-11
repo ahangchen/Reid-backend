@@ -23,8 +23,13 @@ public class HelloWorldController {
         return new Greeting(counter.incrementAndGet(), String.format(template, name));
     }
 
-    @GetMapping(value={"/{name}", "/{name}/hi"})
+    @GetMapping(value={"/{name}"})
     public @ResponseBody String testApi(@PathVariable("name") String name, @RequestParam(value="id", defaultValue = "-1") Integer id) {
+        return fileServerProperties.getHost() + ',' + name + "," + id;
+    }
+
+    @GetMapping(value={"/{name}/hi"})
+    public @ResponseBody Object testList(@PathVariable("name") String name, @RequestParam(value="id", defaultValue = "-1") Integer id) {
         return fileServerProperties.getHost() + ',' + name + "," + id;
     }
 

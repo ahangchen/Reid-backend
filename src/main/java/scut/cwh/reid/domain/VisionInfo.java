@@ -1,10 +1,12 @@
 package scut.cwh.reid.domain;
 
-public class VisonInfo extends SensorInfo{
+import java.util.Date;
+
+public class VisionInfo extends SensorInfo{
     private String imgPath;
 
-    public VisonInfo(int year, int month, int day, int hour, int minute, int second, int fromSensorId, String imgPath) {
-        super(year, month, day, hour, minute, second, fromSensorId);
+    public VisionInfo(Date captureTime, int fromSensorId, String imgPath) {
+        super(captureTime, fromSensorId);
         this.imgPath = imgPath;
     }
 

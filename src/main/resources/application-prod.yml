@@ -3,3 +3,8 @@ server:
 
 fileServer:
   host: "http://222.201.145.237:8888/"
+
+spring:
+  data:
+    mongodb:
+      uri: mongodb://reid:p2p543@localhost:27017/reid

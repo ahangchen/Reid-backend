@@ -3,10 +3,14 @@ server:
 
 fileServer:
   host: "http://222.201.145.237:8888/"
+  path: "/home/cwh/coding/reid_file_backend"
 
 spring:
-  datasource:
-      driver-class-name: com.mysql.jdbc.Driver
-      url: jdbc:mysql://127.0.0.1:3306/reid
-      username: root
-      password: 0
+  data:
+    mongodb:
+      uri: mongodb://reid:p2p543@localhost:27017/reid
+#  datasource:
+#      driver-class-name: com.mysql.jdbc.Driver
+#      url: jdbc:mysql://127.0.0.1:3306/reid
+#      username: root
+#      password: 0

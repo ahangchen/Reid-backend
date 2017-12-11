@@ -7,6 +7,15 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix="fileServer")
 public class FileServerProperties {
     private String host;
+    private String path;
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
 
     public String getHost() {
         return host;

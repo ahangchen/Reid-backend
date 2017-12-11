@@ -1,10 +1,15 @@
 package scut.cwh.reid.domain;
 
+import java.util.Date;
+
 public class WifiInfo extends SensorInfo{
     private String macAddress;
 
-    public WifiInfo(int year, int month, int day, int hour, int minute, int second, int fromSensorId, String macAddr) {
-        super(year, month, day, hour, minute, second, fromSensorId);
+    public WifiInfo() {
+        super();
+    }
+    public WifiInfo(Date captureTime, int fromSensorId, String macAddr) {
+        super(captureTime, fromSensorId);
         this.macAddress = macAddr;
     }
 
