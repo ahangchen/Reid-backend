@@ -5,6 +5,10 @@ import java.util.Date;
 public class VisionInfo extends SensorInfo{
     private String imgPath;
 
+    public VisionInfo() {
+        super();
+    }
+
     public VisionInfo(Date captureTime, int fromSensorId, String imgPath) {
         super(captureTime, fromSensorId);
         this.imgPath = imgPath;
