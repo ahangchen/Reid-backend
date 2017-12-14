@@ -52,7 +52,7 @@
         "data": {
             "captureTime": "2017-12-11 07:00:00",
             "fromSensorId": 0,
-            "imgPath": "http://222.201.145.237:8888//img/rasp-wifi.png"
+            "imgPath": "http://222.201.145.237:8888/img/rasp-wifi.png"
         }
     }
     ```
@@ -75,7 +75,7 @@
         "data": {
             "captureTime": "2017-12-11 07:00:00",
             "fromSensorId": 0,
-            "audioPath": "http://222.201.145.237:8888//img/rasp-wifi.mp3"
+            "audioPath": "http://222.201.145.237:8888/img/rasp-wifi.mp3"
         }
     }
     ```
@@ -92,7 +92,7 @@
     {
       "code":0,
       "msg":"成功",
-      "data":"http://222.201.145.237:8888//img/rasp-wifi.png"
+      "data":"http://222.201.145.237:8888/img/rasp-wifi.png"
     }
     ```
     
@@ -106,7 +106,34 @@
 #### 前端获取后端的传感器列表
 
 #### 前端/sensor给出传感器id和时间范围，后端返回符合条件的图片列表
-
+  - URL: http://localhost:8081/sensor/vision/list
+  - Type: GET
+  - Content-type: multipart/form-data
+  - 参数: 
+    - id: 传感器id
+    - startTime: 起始时间
+    - endTime: 终止时间 
+  - 返回值：
+    - 成功：
+    ```json
+    {
+        "code": 0,
+        "msg": "成功",
+        "data": [
+            {
+                "captureTime": "2017-12-11 07:00:00",
+                "fromSensorId": 0,
+                "imgPath": "http://222.201.145.237:8888/img/rasp-wifi.png"
+            },
+            {
+                "captureTime": "2017-12-11 08:00:00",
+                "fromSensorId": 0,
+                "imgPath": "http://222.201.145.237:8888/img/rasp-wifi.png"
+            }
+        ]
+    }
+    ```
+    
 #### 前端/sensor给出传感器id和时间范围，后端返回符合条件的音频列表
 
 #### 前端/sensor给出传感器id和时间范围，后端返回符合条件的mac地址列表
