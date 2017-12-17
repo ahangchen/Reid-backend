@@ -2,7 +2,7 @@ server:
   port: 8081
 
 fileServer:
-  host: "http://222.201.145.237:8888/"
+  host: "http://222.201.137.47:12347/"
   path: "/home/cwh/coding/reid_file_backend"
 
 spring:
