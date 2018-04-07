@@ -16,6 +16,7 @@ import java.util.Date;
 
 
 @RequestMapping("/sensor")
+@CrossOrigin
 @Controller
 public class VisionSensorController {
     @InitBinder

@@ -15,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Controller
+@CrossOrigin
 @RequestMapping("/sensor")
 public class SensorQueryController {
     @InitBinder
@@ -36,7 +37,6 @@ public class SensorQueryController {
 
     @Autowired
     private VisionSensorRepository visionSensorRepository;
-
     @GetMapping(value = "/vision/list")
     @ResponseBody
     public Result findImgBySensorIdAndTime(@RequestParam Integer id, @RequestParam Date startTime, @RequestParam Date endTime) {

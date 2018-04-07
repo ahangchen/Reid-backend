@@ -20,6 +20,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @RequestMapping("/multi")
+@CrossOrigin
 @Controller
 public class MultiQueryController {
     @InitBinder

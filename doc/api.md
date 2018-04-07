@@ -3,7 +3,7 @@
 ## Data Sensor
 
 #### 后端获取sensor捕捉到的包信息，存入数据库
-  - URL: http://localhost:8081/sensor/wifi
+  - URL: http://222.201.137.47:12346/sensor/wifi
   - Type: POST
   - Content-type: x-www-form-urlencoded
   - 参数: 
@@ -36,7 +36,7 @@
     ```
     
 #### 后端获取sensor捕捉到的图片信息，存入数据库
-  - URL: http://localhost:8081/sensor/vision
+  - URL: http://222.201.137.47:12346/sensor/vision
   - Type: POST
   - Content-type: application/json
   - 参数: json格式
@@ -70,7 +70,7 @@
     
     
 #### 后端获取sensor捕捉到的音频信息，存入数据库
-  - URL: http://localhost:8081/sensor/audio
+  - URL: http://222.201.137.47:12346/sensor/audio
   - Type: POST
   - Content-type: x-www-form-urlencoded
   - 参数: 
@@ -93,7 +93,7 @@
     ```
 
 #### 前端上传图片文件，后端返回一个URL
-  - URL: http://localhost:8081/file/img
+  - URL: http://222.201.137.47:12346/file/img
   - Type: POST
   - Content-type: multipart/form-data
   - 参数: 

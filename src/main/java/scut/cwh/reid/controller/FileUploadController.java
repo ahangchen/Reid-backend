@@ -13,6 +13,7 @@ import java.io.*;
 
 @Controller
 @RequestMapping("/file")
+@CrossOrigin
 public class FileUploadController {
     @Autowired
     private FileServerProperties fileServerProperties;

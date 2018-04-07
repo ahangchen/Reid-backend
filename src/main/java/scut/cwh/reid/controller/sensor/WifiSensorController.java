@@ -15,6 +15,7 @@ import java.util.Date;
 
 @RequestMapping("/sensor")
 @Controller
+@CrossOrigin
 public class WifiSensorController {
     // http://www.dongee.net/2016/08/10/springboot%E8%A1%A8%E5%8D%95%E6%8F%90%E4%BA%A4%E6%97%B6%E6%9C%89%E6%97%A5%E6%9C%9F%E7%9A%84%E6%A0%BC%E5%BC%8F%E5%8C%96%E7%BB%9F%E4%B8%80%E5%A4%84%E7%90%86/
     @InitBinder

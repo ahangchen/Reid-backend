@@ -15,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @RequestMapping("/sensor")
+@CrossOrigin
 @Controller
 public class SensorSettingController {
      @InitBinder
