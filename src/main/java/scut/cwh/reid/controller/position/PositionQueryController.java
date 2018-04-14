@@ -7,10 +7,8 @@ import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-import scut.cwh.reid.domain.Position;
-import scut.cwh.reid.domain.PositionInfo;
-import scut.cwh.reid.domain.Result;
-import scut.cwh.reid.domain.WifiInfo;
+import scut.cwh.reid.domain.*;
+import scut.cwh.reid.repository.SensorRepository;
 import scut.cwh.reid.repository.WifiSensorRepository;
 import scut.cwh.reid.utils.DateUtils;
 import scut.cwh.reid.utils.PositionUtils;
@@ -30,11 +28,21 @@ public class PositionQueryController {
     }
 
     @Autowired
+    private SensorRepository sensorRepository;
+    @Autowired
     private WifiSensorRepository wifiSensorRepository;
 
     @RequestMapping(value="/list", method=RequestMethod.POST)
     @ResponseBody
-    public Result findPositionBySensorIdAndTime(@RequestParam("id[]") List<Integer> id, @RequestParam Date startTime, @RequestParam Date endTime) {
+    public Result findPositionBySensorIdAndTime(@RequestParam(defaultValue = "-1") List<Integer> id, @RequestParam Date startTime, @RequestParam Date endTime, @RequestParam(defaultValue = "-1") String macAddress) {
+
+        //输入参数id只有一个且id=-1，查询所有传感器
+        if(id.size()==1 && id.get(0)==-1){
+            List<Sensor> sensors = sensorRepository.findAll();
+            for(Sensor sensor:sensors){
+                id.add(sensor.getId());
+            }
+        }
 
         List<WifiInfo> dataList = new ArrayList<>();
         for(int i=0;i<id.size();i++){
@@ -93,9 +101,9 @@ public class PositionQueryController {
                         double distances []= new double[wifiInfoSet.size()];
 
                         int index=0;
-                        String macAddress="";
+                        String tmacAddress="";
                         for(WifiInfo wifiInfo:wifiInfoSet){
-                            macAddress=wifiInfo.getMacAddress();
+                            tmacAddress=wifiInfo.getMacAddress();
                             positions[index][0] = positionWiFi[wifiInfo.getFromSensorId()][1];
                             positions[index][1] = positionWiFi[wifiInfo.getFromSensorId()][0];
                             //System.out.println(wifiInfo.getIntensity() + " " + wifiInfo.getFromSensorId()+ "! x:"+positions[index][0]+" y:"+positions[index][1]);
@@ -106,8 +114,11 @@ public class PositionQueryController {
 
                         Position position = PositionUtils.calculatedPosition(positions,distances);
                         position.setCaptureTime(i);
-                        position.setMacAddress(macAddress);
-                        positionList.add(position);
+                        position.setMacAddress(tmacAddress);
+
+                        if(macAddress.equals("-1") || macAddress.equals(tmacAddress)){
+                            positionList.add(position);
+                        }
                     }
                 }
             }
