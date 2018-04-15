@@ -385,6 +385,85 @@
     }
     ```
     
+#### 前端给出时间段，传感器id和mac地址，后端返回可定位到的位置信息
+ - URL: http://222.201.137.47:12346/position/list
+  - Type: POST
+  - Content-type: multipart/form-data
+  - 参数: 
+    - startTime: 起始时间,格式类似： 2017-03-01 00:00:00
+    - endTime: 终止时间,格式类似 2018-04-04 00:00:00
+    - id:可选，可传多个，传感器id列表，不传表示查询所有传感器
+    - macAddress: 可选，需定位的手机的MAC地址，不传表示查询所有mac地址
+  - 返回值：
+    - 成功：
+    ```json
+    {
+        "code": 0,
+        "msg": "成功",
+        "data": [
+            {
+                "captureTime": "2017-12-11 07:00:00",
+                "positionList": []
+            },
+            {
+                "captureTime": "2017-12-11 07:00:01",
+                "positionList": []
+            },
+            {
+                "captureTime": "2017-12-11 07:00:02",
+                "positionList": []
+            },
+            {
+                "captureTime": "2017-12-11 07:00:03",
+                "positionList": [
+                    {
+                        "captureTime": "2017-12-11 07:00:03",
+                        "macAddress": "00:11:22:33:44:55:66",
+                        "x": 775.5322851455759,
+                        "y": 1090.6716909691856
+                    }
+                ]
+            },
+            {
+                "captureTime": "2017-12-11 07:00:04",
+                "positionList": []
+            },
+            {
+                "captureTime": "2017-12-11 07:00:05",
+                "positionList": []
+            },
+            {
+                "captureTime": "2017-12-11 07:00:06",
+                "positionList": []
+            },
+            {
+                "captureTime": "2017-12-11 07:00:07",
+                "positionList": []
+            },
+            {
+                "captureTime": "2017-12-11 07:00:08",
+                "positionList": [
+                    {
+                        "captureTime": "2017-12-11 07:00:08",
+                        "macAddress": "00:11:22:33:44:55:69",
+                        "x": 330,
+                        "y": 880
+                    }
+                ]
+            },
+            {
+                "captureTime": "2017-12-11 07:00:09",
+                "positionList": []
+            },
+            {
+                "captureTime": "2017-12-11 07:00:10",
+                "positionList": []
+            }
+        ]
+    }
+    ```
+
+
 #### 前端给出mac地址，后端返回mac检索到的相关图片列表，以及捕捉时间，对应的传感器id，音频列表
 
 
