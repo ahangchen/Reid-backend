@@ -67,7 +67,39 @@
         }
     }
     ```
+
+#### 后端获取sensor捕捉到的图片信息，存入数据库, 并执行匹配mac地址的逻辑
+  - URL: http://222.201.137.47:12346/sensor/visionMac
+  - Type: POST
+  - Content-type: application/json
+  - 参数: json格式
+  
+  ```json
+  {
+	"captureTime": "2017-12-17 16:21:00",
+	"fromSensorId": "1",
+	"imgPath": "http://222.201.137.47:12347/img/rasp-wifi.png",
+	"boxes": [[0, 1, 2, 3], [2, 3,3,4]]
+}
+  ```
+    - captureTime: 捕获时间，为yyyy-MM-dd hh:mm:ss格式
+    - fromSensorId: 传感器id，一个整数，范围[0,2^32)
+    - imgPath: 图片的URL，需要先调用[接口](#前端上传图片文件，后端返回一个URL)来获取，注意同步
+    - boxes: 图片中行人的坐标
+  - 返回值:
+    - 写入成功
     
+    ```json
+    {
+        "code": 0,
+        "msg": "成功",
+        "data": {
+            "captureTime": "2017-12-11 07:00:00",
+            "fromSensorId": 0,
+            "imgPath": "http://222.201.145.237:8888/img/rasp-wifi.png"
+        }
+    }
+    ```    
     
 #### 后端获取sensor捕捉到的音频信息，存入数据库
   - URL: http://222.201.137.47:12346/sensor/audio
