@@ -26,4 +26,8 @@ public class PositionUtils {
                 &&position.getY()>=sensorArea.getY0()
                 &&position.getY()<=sensorArea.getY1();
     }
+
+    public static Position centerOfSensorArea(SensorArea sensorArea){
+        return new Position((sensorArea.getX0()+sensorArea.getX1())/2,(sensorArea.getY0()+sensorArea.getY1())/2);
+    }
 }
