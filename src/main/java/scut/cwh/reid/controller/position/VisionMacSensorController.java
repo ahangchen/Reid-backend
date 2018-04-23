@@ -78,7 +78,7 @@ public class VisionMacSensorController {
         }else{
             // 情况3：同时间内有多个上报的mac地址，寻找定位位置在传感器对应区域内，且时间最近的
             //获取该时间（3s内）定位的数据
-            List<PositionInfo> positionInfoList = PositionManager.getInstance().queryPosition(DateUtils.addSecond(captureTime,-1),DateUtils.addSecond(captureTime,1),"-1",wifiInfos);
+            List<PositionInfo> positionInfoList = PositionManager.getInstance().queryPositionByWifiInfo(DateUtils.addSecond(captureTime,-1),DateUtils.addSecond(captureTime,1),"-1",wifiInfos);
 
             //遍历查找相定位区域在传感器对应区域内的mac地址，将其mac地址作为匹配的mac地址
             String address=null;
