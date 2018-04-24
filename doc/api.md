@@ -495,6 +495,85 @@
     }
     ```
 
+#### 前端给出mac地址和时间范围，后端返回符合条件的图片列表，以及图片中行人的位置
+  - URL: http://222.201.137.47:12346/vision/list?startTime=2017-12-11 07:00:01&endTime=2017-12-11 07:00:10&macAddress=00:11:22:33:44:55:66
+  - Type: GET
+  - Content-type: multipart/form-data
+  - 参数: 
+    - macAddress: mac地址
+    - startTime: 起始时间
+    - endTime: 终止时间 
+  - 返回值：
+    - 成功：
+    
+    ```json
+    {
+        "code": 0,
+        "msg": "成功",
+        "data": [
+            {
+                "captureTime": "2017-12-11 07:00:03",
+                "fromSensorId": 1,
+                "imgPath": "http://222.201.137.47:12347/img/rasp-wifi.png",
+                "boxes": [
+                    [
+                        0,
+                        1,
+                        2,
+                        3
+                    ],
+                    [
+                        2,
+                        3,
+                        3,
+                        4
+                    ]
+                ],
+                "macAddress": "00:11:22:33:44:55:66"
+            },
+            {
+                "captureTime": "2017-12-11 07:00:04",
+                "fromSensorId": 1,
+                "imgPath": "http://222.201.137.47:12347/img/rasp-wifi.png",
+                "boxes": [
+                    [
+                        0,
+                        1,
+                        2,
+                        3
+                    ],
+                    [
+                        2,
+                        3,
+                        3,
+                        4
+                    ]
+                ],
+                "macAddress": "00:11:22:33:44:55:66"
+            },
+            {
+                "captureTime": "2017-12-11 07:00:03",
+                "fromSensorId": 1,
+                "imgPath": "http://222.201.137.47:12347/img/rasp-wifi.png",
+                "boxes": [
+                    [
+                        0,
+                        1,
+                        2,
+                        3
+                    ],
+                    [
+                        2,
+                        3,
+                        3,
+                        4
+                    ]
+                ],
+                "macAddress": "00:11:22:33:44:55:66"
+            }
+        ]
+    }
+    ```
 
 #### 前端给出mac地址，后端返回mac检索到的相关图片列表，以及捕捉时间，对应的传感器id，音频列表
 
