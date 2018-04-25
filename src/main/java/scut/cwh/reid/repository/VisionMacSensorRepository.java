@@ -9,4 +9,5 @@ import java.util.List;
 public interface VisionMacSensorRepository  extends MongoRepository<VisionMacInfo, Integer> {
     List<VisionMacInfo> findAllByFromSensorId(Integer FromSensorId);
     List<VisionMacInfo> findALLByCaptureTimeBetweenAndFromSensorId(Date startTime, Date endTime, Integer fromSensorId);
+    List<VisionMacInfo> findAllByCaptureTimeBetweenAndMacAddress(Date startTime, Date endTime, String macAddress);
 }

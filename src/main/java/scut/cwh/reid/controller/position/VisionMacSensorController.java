@@ -41,7 +41,6 @@ public class VisionMacSensorController {
     @PostMapping(value = "/visionMac")
     public @ResponseBody
     Result recordImg(@RequestBody VisionInfo visionInfo) {
-        //TODO: 匹配图片对应的mac地址
         VisionMacInfo visionMacInfo = new VisionMacInfo();
         visionMacInfo.setBoxes(visionInfo.getBoxes());
         visionMacInfo.setCaptureTime(visionInfo.getCaptureTime());
