@@ -7,6 +7,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import scut.cwh.reid.domain.Result;
 import scut.cwh.reid.domain.VisionInfo;
+import scut.cwh.reid.repository.VisionMacSensorRepository;
 import scut.cwh.reid.repository.VisionSensorRepository;
 import scut.cwh.reid.repository.WifiSensorRepository;
 import scut.cwh.reid.utils.ResultUtil;
@@ -44,5 +45,13 @@ public class SensorQueryController {
         return ResultUtil.success(visionSensorRepository.findALLByCaptureTimeBetweenAndFromSensorId(startTime, endTime, id));
     }
 
+    @Autowired
+    private VisionMacSensorRepository visionMacSensorRepository;
+    @GetMapping(value = "/visionMac/list")
+    @ResponseBody
+    public Result findImgMacBySensorIdAndTime(@RequestParam Integer id, @RequestParam Date startTime, @RequestParam Date endTime) {
+        //save img file to disk and store path info
+        return ResultUtil.success(visionMacSensorRepository.findALLByCaptureTimeBetweenAndFromSensorId(startTime, endTime, id));
+    }
 
 }

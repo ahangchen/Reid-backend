@@ -14,7 +14,7 @@ public class FileInfo {
     public FileInfo(String fileName, FileType fileType, FileServerProperties fileServerProperties) {
         this.filePath = fileServerProperties.getPath() + File.separator
                 + fileType.getSubDirName() + File.separator + fileName;
-        this.fileUrl = fileServerProperties.getHost() + '/' + fileType.getSubDirName() + "/" + fileName;
+        this.fileUrl = fileServerProperties.getHost() + "/reid/" + fileType.getSubDirName() + "/" + fileName;
     }
 
     public String getFilePath() {

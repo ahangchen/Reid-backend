@@ -22,6 +22,7 @@ import java.util.*;
 
 @RequestMapping("/position")
 @Controller
+@CrossOrigin
 public class PositionQueryController {
     @InitBinder
     public void initBinder(WebDataBinder binder) {

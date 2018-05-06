@@ -60,14 +60,14 @@ public class PositionManager {
 
                 //传感器位置 TODO:真实传感器位置
                 double positionWiFi[][]= new double[100][2];
-                positionWiFi[0][1]=180;
-                positionWiFi[0][0]=380;
+                positionWiFi[0][1]=6;
+                positionWiFi[0][0]=2;
 
-                positionWiFi[1][1]=880;
-                positionWiFi[1][0]=380;
+                positionWiFi[1][1]=4;
+                positionWiFi[1][0]=2;
 
-                positionWiFi[2][1]=330;
-                positionWiFi[2][0]=880;
+                positionWiFi[2][1]=6;
+                positionWiFi[2][0]=10;
 
                 for(Set<WifiInfo> wifiInfoSet:macList.values()){
                     //判断是否可定位,现在只判断是否三点以上 TODO：完善判断逻辑，去除相同点多次出现的情况
@@ -80,11 +80,11 @@ public class PositionManager {
                         String tmacAddress="";
                         for(WifiInfo wifiInfo:wifiInfoSet){
                             tmacAddress=wifiInfo.getMacAddress();
-                            positions[index][0] = positionWiFi[wifiInfo.getFromSensorId()][1];
-                            positions[index][1] = positionWiFi[wifiInfo.getFromSensorId()][0];
+                            positions[index][0] = positionWiFi[wifiInfo.getFromSensorId()][0];
+                            positions[index][1] = positionWiFi[wifiInfo.getFromSensorId()][1];
                             //System.out.println(wifiInfo.getIntensity() + " " + wifiInfo.getFromSensorId()+ "! x:"+positions[index][0]+" y:"+positions[index][1]);
-                            //TODO:信号强度对应真正的距离
-                            distances[index] = wifiInfo.getIntensity()*10;
+
+                            distances[index] = getDistanceByIntensity(wifiInfo.getIntensity());
                             index++;
                         }
 
@@ -104,6 +104,16 @@ public class PositionManager {
             positionInfoList.add(positionInfo);
         }
         return positionInfoList;
+    }
+
+    public double getDistanceByIntensity(int intensity){
+        double distance=0;
+        if (intensity>-30){
+            distance=0;
+        }else{
+            distance=-intensity/10;
+        }
+        return distance;
     }
 
     //用探测的行人图片信息，根据传感器对应区域计算位置
@@ -188,6 +198,9 @@ public class PositionManager {
             //遍历assistInfo里面同个时间的的位置信息，把result里面不存在的信息加到result里面
             for (Position position:assistInfo.get(i).getPositionList()){
                 String macAddress = position.getMacAddress();
+                if(macAddress==null){
+                    continue;
+                }
                 //查找在result中是否存在
                 boolean isIn=false;
                 for(Position position1:result.get(i).getPositionList()){
