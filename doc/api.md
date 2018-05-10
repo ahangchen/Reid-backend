@@ -179,8 +179,47 @@
 #### 批量新增传感器信息
 
 ## Web 检索
-
 #### 前端获取后端的传感器列表
+- URL: http://222.201.137.47:12346/sensor/list
+  - Type: GET
+  - Content-type: multipart/form-data
+  - 参数: 
+    无
+- 返回值：
+    - 成功：
+    
+    ```json
+    {
+    "code": 0,
+    "msg": "成功",
+    "data": [
+        {
+            "id": 0,
+            "latitude": 40.5,
+            "longitude": 110.7,
+            "macAddress": "00:11:22:33:44:66"
+        },
+        {
+            "id": 1,
+            "latitude": 39.3,
+            "longitude": 110.5,
+            "macAddress": "02:11:22:33:44:66"
+        },
+        {
+            "id": 2,
+            "latitude": 40.2,
+            "longitude": 110.1,
+            "macAddress": "03:11:22:33:44:66"
+        },
+        {
+            "id": 3,
+            "latitude": 41.2,
+            "longitude": 111.1,
+            "macAddress": "04:11:22:33:44:66"
+        }
+    ]
+    }
+    ```
 
 #### 前端给出传感器id和时间范围，后端返回符合条件的图片列表，以及图片中行人的位置
   - URL: http://222.201.137.47:12346/sensor/vision/list?id=1&startTime=2018-1-5 00:00:00&endTime=2018-1-8 00:00:00
