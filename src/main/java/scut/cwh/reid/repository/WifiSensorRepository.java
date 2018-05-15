@@ -9,5 +9,7 @@ import java.util.List;
 public interface WifiSensorRepository extends MongoRepository<WifiInfo, Integer>{
     WifiInfo findByFromSensorId(Integer fromSensorId);
     List<WifiInfo> findALLByCaptureTimeBetweenAndFromSensorId(Date startTime, Date endTime, Integer fromSensorId);
+    List<WifiInfo> findAllByCaptureTime(Date captureTime);
+    List<WifiInfo> findAllByCaptureTimeBetween(Date startTime, Date endTime);
     List<WifiInfo> findALLByCaptureTimeBetweenAndMacAddress(Date startTime, Date endTime, String macAddress);
 }
