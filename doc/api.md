@@ -35,7 +35,7 @@
     }
     ```
     
-#### 后端获取sensor捕捉到的图片信息，存入数据库
+#### 后端获取sensor捕捉到的图片信息，存入数据库(deprecated, see sensor/visionMac)
   - URL: http://222.201.137.47:12346/sensor/vision
   - Type: POST
   - Content-type: application/json
@@ -142,7 +142,7 @@
     ```
     
 
-#### 新增单个传感器信息
+#### 新增单个传感器信息(deprecated, see sensorArea/setting)
  - URL: http://222.201.137.47:12346/sensor/setting
   - Type: POST
   - Content-type: application/json
@@ -179,7 +179,7 @@
 #### 批量新增传感器信息
 
 ## Web 检索
-#### 前端获取后端的传感器列表
+#### 前端获取后端的传感器列表(deprecated, see sensorArea/list)
 - URL: http://222.201.137.47:12346/sensor/list
   - Type: GET
   - Content-type: multipart/form-data
@@ -222,7 +222,7 @@
     ```
 
 #### 前端给出传感器id和时间范围，后端返回符合条件的图片列表，以及图片中行人的位置
-  - URL: http://222.201.137.47:12346/sensor/vision/list?id=1&startTime=2018-1-5 00:00:00&endTime=2018-1-8 00:00:00
+  - URL: http://222.201.137.47:12346/sensor/visionMac/list?id=1&startTime=2018-1-5 00:00:00&endTime=2018-1-8 00:00:00
   - Type: GET
   - Content-type: multipart/form-data
   - 参数: 
@@ -535,7 +535,7 @@
     ```
 
 #### 前端给出mac地址和时间范围，后端返回符合条件的图片列表，以及图片中行人的位置
-  - URL: http://222.201.137.47:12346/vision/list?startTime=2017-12-11 07:00:01&endTime=2017-12-11 07:00:10&macAddress=00:11:22:33:44:55:66
+  - URL: http://222.201.137.47:12346/visionMac/list?startTime=2017-12-11 07:00:01&endTime=2017-12-11 07:00:10&macAddress=00:11:22:33:44:55:66
   - Type: GET
   - Content-type: multipart/form-data
   - 参数: 
