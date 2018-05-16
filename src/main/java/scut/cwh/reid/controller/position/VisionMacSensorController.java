@@ -15,9 +15,9 @@ import scut.cwh.reid.utils.DateUtils;
 import scut.cwh.reid.utils.PositionUtils;
 import scut.cwh.reid.utils.ResultUtil;
 
+import javax.xml.crypto.Data;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @RequestMapping("/sensor")
 @CrossOrigin
@@ -71,13 +71,39 @@ public class VisionMacSensorController {
                 }
                 visionMacInfo.setMacAddress(address);
             }
-        }else if(wifiInfos.size()==1){
-            // 情况2：同时间内只有一个上报的mac地址，将其作为匹配的mac地址
-            visionMacInfo.setMacAddress(wifiInfos.get(0).getMacAddress());
         }else{
             // 情况3：同时间内有多个上报的mac地址，寻找定位位置在传感器对应区域内，且时间最近的
             //获取该时间（3s内）定位的数据
-            List<PositionInfo> positionInfoList = PositionManager.getInstance().queryPositionByWifiInfo(DateUtils.addSecond(captureTime,-1),DateUtils.addSecond(captureTime,1),"-1",wifiInfos);
+            Date startTime = captureTime;
+            Date endTime = DateUtils.addSecond(startTime,3);
+            List<PositionInfo> positionInfoList = new ArrayList<>();
+            for(Date i=startTime;!i.after(endTime);i=DateUtils.addSecond(i,1)){
+                List<WifiInfo> wifiInfoSet=wifiSensorRepository.findAllByCaptureTimeBetween(i,DateUtils.addSecond(i,5));
+                //按MacAddress分箱
+                //处理同一时间内的WifiInfo，按macAddress分箱
+                Map<String, Set<WifiInfo>> macList = new HashMap<>();
+                for (WifiInfo wifiInfo:wifiInfoSet) {
+                    if (macList.containsKey(wifiInfo.getMacAddress())) {
+                        macList.get(wifiInfo.getMacAddress()).add(wifiInfo);
+                    } else {
+                        macList.put(wifiInfo.getMacAddress(), new HashSet<>());
+                        macList.get(wifiInfo.getMacAddress()).add(wifiInfo);
+                    }
+                }
+
+                //计算出所有位置
+                List<Position> positionList = new ArrayList<>();
+                for(Set<WifiInfo> wifiInfoss:macList.values()){
+                    Position position = PositionManager.getInstance().calculationPosition(wifiInfoss);
+                    if(position!=null){
+                        positionList.add(position);
+                    }
+                }
+
+                PositionInfo positionInfo =new PositionInfo(i,positionList);
+                positionInfoList.add(positionInfo);
+            }
+
 
             //遍历查找相定位区域在传感器对应区域内的mac地址，将其mac地址作为匹配的mac地址
             String address=null;

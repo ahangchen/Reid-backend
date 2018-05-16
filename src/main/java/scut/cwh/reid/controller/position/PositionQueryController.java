@@ -40,37 +40,37 @@ public class PositionQueryController {
 
     @RequestMapping(value="/list", method=RequestMethod.POST)
     @ResponseBody
-    public Result findPositionBySensorIdAndTime(@RequestParam(defaultValue = "-1") List<Integer> id, @RequestParam Date startTime, @RequestParam Date endTime, @RequestParam(defaultValue = "-1") String macAddress) {
+    public Result findPositionByTime(@RequestParam Date startTime, @RequestParam Date endTime) {
 
-        List<SensorArea> sensorAreas = sensorAreaRepository.findAll();
-        //输入参数id只有一个且id=-1，查询所有传感器
-        if(id.size()==1 && id.get(0)==-1){
-            for(SensorArea sensor:sensorAreas){
-                id.add(sensor.getId());
+        List<PositionInfo> positionInfoList = new ArrayList<>();
+        for(Date i=startTime;!i.after(endTime);i=DateUtils.addSecond(i,1)){
+            List<WifiInfo> wifiInfoSet=wifiSensorRepository.findAllByCaptureTimeBetween(i,DateUtils.addSecond(i,5));
+            //按MacAddress分箱
+            //处理同一时间内的WifiInfo，按macAddress分箱
+            Map<String, Set<WifiInfo>> macList = new HashMap<>();
+            for (WifiInfo wifiInfo:wifiInfoSet) {
+                if (macList.containsKey(wifiInfo.getMacAddress())) {
+                    macList.get(wifiInfo.getMacAddress()).add(wifiInfo);
+                } else {
+                    macList.put(wifiInfo.getMacAddress(), new HashSet<>());
+                    macList.get(wifiInfo.getMacAddress()).add(wifiInfo);
+                }
             }
+
+            //计算出所有位置
+            List<Position> positionList = new ArrayList<>();
+            for(Set<WifiInfo> wifiInfos:macList.values()){
+                Position position = PositionManager.getInstance().calculationPosition(wifiInfos);
+                if(position!=null){
+                    positionList.add(position);
+                }
+            }
+
+            PositionInfo positionInfo =new PositionInfo(i,positionList);
+            positionInfoList.add(positionInfo);
         }
 
-        //查询用于计算位置的wifi信息
-        List<WifiInfo> dataList = new ArrayList<>();
-        for(int i=0;i<id.size();i++){
-            List<WifiInfo> wifiList = wifiSensorRepository.findALLByCaptureTimeBetweenAndFromSensorId(startTime, endTime, id.get(i));
-            dataList.addAll(wifiList);
-        }
-
-        //查询用于计算位置的行人图片信息
-        List<VisionMacInfo> dataList2 = new ArrayList<>();
-        for(int i=0;i<id.size();i++){
-            List<VisionMacInfo> visionList = visionMacSensorRepository.findALLByCaptureTimeBetweenAndFromSensorId(startTime, endTime, id.get(i));
-            dataList2.addAll(visionList);
-        }
-
-        List<PositionInfo> mainPositionInfoList = PositionManager.getInstance().queryPositionByWifiInfo(startTime,endTime,macAddress,dataList);
-        List<PositionInfo> assisPositionInfoList = PositionManager.getInstance().queryPositionByVisionMacInfo(startTime,endTime,macAddress,dataList2, sensorAreas);
-
-        List<PositionInfo> result = PositionManager.getInstance().deduplicationPositionInfo(mainPositionInfoList,assisPositionInfoList);
-
-
-        return ResultUtil.success(result);
+        return ResultUtil.success(positionInfoList);
     }
 
 }

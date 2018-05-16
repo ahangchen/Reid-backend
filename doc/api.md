@@ -535,7 +535,7 @@
     ```
 
 #### 前端给出mac地址和时间范围，后端返回符合条件的图片列表，以及图片中行人的位置
-  - URL: http://222.201.137.47:12346/visionMac/list?startTime=2017-12-11 07:00:01&endTime=2017-12-11 07:00:10&macAddress=00:11:22:33:44:55:66
+  - URL: http://222.201.137.47:12346/vision/list?startTime=2017-12-11 07:00:01&endTime=2017-12-11 07:00:10&macAddress=00:11:22:33:44:55:66
   - Type: GET
   - Content-type: multipart/form-data
   - 参数: 

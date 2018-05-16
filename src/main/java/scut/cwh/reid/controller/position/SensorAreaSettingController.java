@@ -33,4 +33,10 @@ public class SensorAreaSettingController {
         //save img file to disk and store path info
         return ResultUtil.success(sensorAreaRepository.save(sensorArea));
     }
+
+    @GetMapping(value = "/list")
+    @ResponseBody
+    public Result findAllSensors(){
+        return ResultUtil.success(sensorAreaRepository.findAll());
+    }
 }
