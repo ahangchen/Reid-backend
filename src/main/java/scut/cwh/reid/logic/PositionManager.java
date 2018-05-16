@@ -5,7 +5,7 @@ import scut.cwh.reid.utils.DateUtils;
 import scut.cwh.reid.utils.PositionUtils;
 import java.util.*;
 
-public class PositionManager {
+public class PositionManager implements IPositionManager{
 
     private PositionManager(){
 
