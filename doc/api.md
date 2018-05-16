@@ -175,6 +175,53 @@
         }
     }
     ```
+
+
+#### 新增单个传感器信息
+ - URL: http://222.201.137.47:12346/sensorArea/setting
+  - Type: POST
+  - Content-type: application/json
+  - 参数: json格式
+  
+  ```json
+  {
+    "id": "2",
+    "macAddress": "00:11:22:33:44:02",
+    "latitude": 40.0000002,
+    "longitude": 110.000002,
+    "x0": 0,
+    "y0": 7,
+    "x1": 10,
+    "y1": 10
+  }
+  ```
+    - macAddress: 传感器上一个无线网卡的mac地址
+    - id: 传感器id，一个整数，范围[0,2^32)
+    - latitude: 传感器所在纬度
+    - longitude: 传感器所在经度
+    - x0: 监控对应区域左下角横坐标
+    - y0: 监控对应区域左下角纵坐标
+    - x1: 监控对应区域右下角横坐标
+    - y1: 监控对应区域右下角纵坐标
+  - 返回值:
+    - 写入成功
+    
+    ```json
+    {
+        "code": 0,
+        "msg": "成功",
+        "data": {
+            "id": "2",
+            "macAddress": "00:11:22:33:44:02",
+            "latitude": 40.0000002,
+            "longitude": 110.000002,
+            "x0": 0,
+            "y0": 7,
+            "x1": 10,
+            "y1": 10
+        }
+    }
+    ``` 
     
 #### 批量新增传感器信息
 
@@ -218,6 +265,54 @@
             "macAddress": "04:11:22:33:44:66"
         }
     ]
+    }
+    ```
+
+#### 前端获取后端的传感器列表
+- URL: http://222.201.137.47:12346/sensorArea/list
+  - Type: GET
+  - Content-type: multipart/form-data
+  - 参数: 
+    无
+- 返回值：
+    - 成功：
+    
+    ```json
+    {
+        "code": 0,
+        "msg": "成功",
+        "data": [
+            {
+                "id": 0,
+                "latitude": 6,
+                "longitude": 2,
+                "macAddress": "00:11:22:33:44:60",
+                "x0": 0,
+                "y0": 0,
+                "x1": 4,
+                "y1": 10
+            },
+            {
+                "id": 1,
+                "latitude": 4,
+                "longitude": 2,
+                "macAddress": "00:11:22:33:44:61",
+                "x0": 6,
+                "y0": 0,
+                "x1": 10,
+                "y1": 10
+            },
+            {
+                "id": 2,
+                "latitude": 6,
+                "longitude": 10,
+                "macAddress": "00:11:22:33:44:62",
+                "x0": 0,
+                "y0": 7,
+                "x1": 10,
+                "y1": 10
+            }
+        ]
     }
     ```
 
