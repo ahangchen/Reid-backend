@@ -10,4 +10,5 @@ public interface VisionMacSensorRepository  extends MongoRepository<VisionMacInf
     List<VisionMacInfo> findAllByFromSensorId(Integer FromSensorId);
     List<VisionMacInfo> findALLByCaptureTimeBetweenAndFromSensorId(Date startTime, Date endTime, Integer fromSensorId);
     List<VisionMacInfo> findAllByCaptureTimeBetweenAndMacAddress(Date startTime, Date endTime, String macAddress);
+    List<VisionMacInfo> findAllByCaptureTimeBetween(Date startTime, Date endTime);
 }

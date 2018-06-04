@@ -51,8 +51,8 @@ public class VisionMacSensorController {
         Integer fromSensorId = visionMacInfo.getFromSensorId();
         //查询同时间（3s内）同id传感器上报的macAddress
         List<WifiInfo> wifiInfos = wifiSensorRepository.findALLByCaptureTimeBetweenAndFromSensorId(DateUtils.addSecond(captureTime,-1),DateUtils.addSecond(captureTime,1),fromSensorId);
-        //查询附近时间（前360s内）同id传感器上报的行人图片
-        List<VisionMacInfo> visionMacInfos = visionMacSensorRepository.findALLByCaptureTimeBetweenAndFromSensorId(DateUtils.addSecond(captureTime,-360),captureTime,fromSensorId);
+        //查询附近时间（前60s内）同id传感器上报的行人图片
+        List<VisionMacInfo> visionMacInfos = visionMacSensorRepository.findALLByCaptureTimeBetweenAndFromSensorId(DateUtils.addSecond(captureTime,-60),captureTime,fromSensorId);
 
         if(wifiInfos==null || wifiInfos.size()==0){
             // 情况1：同时间内没有上报的mac地址，遍历查找相似度最大的图片，将其mac地址作为匹配的mac地址
@@ -63,7 +63,7 @@ public class VisionMacSensorController {
                 String address=null;
                 double maxSimilarity=0;
                 for(VisionMacInfo previsionMacInfo : visionMacInfos){
-                    double curSimilarity = Reid.getSimilarity(visionInfo.getImgPath(),previsionMacInfo.getImgPath());
+                    double curSimilarity = Reid.getSimilarity(visionMacInfo,previsionMacInfo);
                     if(curSimilarity>maxSimilarity){
                         maxSimilarity=curSimilarity;
                         address=previsionMacInfo.getMacAddress();
@@ -71,11 +71,15 @@ public class VisionMacSensorController {
                 }
                 visionMacInfo.setMacAddress(address);
             }
-        }else{
-            // 情况3：同时间内有多个上报的mac地址，寻找定位位置在传感器对应区域内，且时间最近的
-            //获取该时间（3s内）定位的数据
-            Date startTime = captureTime;
-            Date endTime = DateUtils.addSecond(startTime,3);
+        }
+//        else if(wifiInfos.size()==1){
+//            visionMacInfo.setMacAddress(wifiInfos.get(0).getMacAddress());
+//        }
+        else{
+            // 情况2：同时间内有一个到多个上报的mac地址，寻找定位位置在传感器对应区域内，且时间最近的
+            //获取该时间（20s内）定位的数据
+            Date startTime = DateUtils.addSecond(captureTime,-10);
+            Date endTime = DateUtils.addSecond(captureTime,10);
             List<PositionInfo> positionInfoList = new ArrayList<>();
             for(Date i=startTime;!i.after(endTime);i=DateUtils.addSecond(i,1)){
                 List<WifiInfo> wifiInfoSet=wifiSensorRepository.findAllByCaptureTimeBetween(i,DateUtils.addSecond(i,5));

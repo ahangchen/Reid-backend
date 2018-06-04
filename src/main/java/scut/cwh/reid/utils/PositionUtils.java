@@ -6,6 +6,10 @@ import org.apache.commons.math3.fitting.leastsquares.LeastSquaresOptimizer;
 import org.apache.commons.math3.fitting.leastsquares.LevenbergMarquardtOptimizer;
 import scut.cwh.reid.domain.Position;
 import scut.cwh.reid.domain.SensorArea;
+import scut.cwh.reid.domain.WifiInfo;
+
+import java.util.Date;
+import java.util.Set;
 
 public class PositionUtils {
     public static Position calculatedPosition(double[][] positions, double[] distances){
