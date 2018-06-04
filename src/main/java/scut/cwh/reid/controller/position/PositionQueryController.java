@@ -1,7 +1,6 @@
 package scut.cwh.reid.controller.position;
 
 
-import com.sun.xml.internal.bind.v2.TODO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -10,11 +9,9 @@ import org.springframework.web.bind.annotation.*;
 import scut.cwh.reid.domain.*;
 import scut.cwh.reid.logic.PositionManager;
 import scut.cwh.reid.repository.SensorAreaRepository;
-import scut.cwh.reid.repository.SensorRepository;
 import scut.cwh.reid.repository.VisionMacSensorRepository;
 import scut.cwh.reid.repository.WifiSensorRepository;
 import scut.cwh.reid.utils.DateUtils;
-import scut.cwh.reid.utils.PositionUtils;
 import scut.cwh.reid.utils.ResultUtil;
 
 import java.text.SimpleDateFormat;
@@ -32,11 +29,13 @@ public class PositionQueryController {
     }
 
     @Autowired
-    private SensorAreaRepository sensorAreaRepository;
-    @Autowired
     private WifiSensorRepository wifiSensorRepository;
+
     @Autowired
     private VisionMacSensorRepository visionMacSensorRepository;
+
+    @Autowired
+    private SensorAreaRepository sensorAreaRepository;
 
     @RequestMapping(value="/list", method=RequestMethod.POST)
     @ResponseBody
@@ -44,7 +43,9 @@ public class PositionQueryController {
 
         List<PositionInfo> positionInfoList = new ArrayList<>();
         for(Date i=startTime;!i.after(endTime);i=DateUtils.addSecond(i,1)){
-            List<WifiInfo> wifiInfoSet=wifiSensorRepository.findAllByCaptureTimeBetween(i,DateUtils.addSecond(i,5));
+            List<WifiInfo> wifiInfoSet=wifiSensorRepository.findAllByCaptureTimeBetween(i,DateUtils.addSecond(i,10));
+            List<VisionMacInfo> visionMacInfoList=visionMacSensorRepository.findAllByCaptureTimeBetween(i,DateUtils.addSecond(i,10));
+
             //按MacAddress分箱
             //处理同一时间内的WifiInfo，按macAddress分箱
             Map<String, Set<WifiInfo>> macList = new HashMap<>();
@@ -57,11 +58,60 @@ public class PositionQueryController {
                 }
             }
 
+            //处理同一时间内的VisionMacInfo，按macAddress分箱
+            Map<String, Set<VisionMacInfo>> visionMacList = new HashMap<>();
+            for (VisionMacInfo visionMacInfo:visionMacInfoList) {
+                if(visionMacInfo.getMacAddress()==null)
+                    continue;
+                if (visionMacList.containsKey(visionMacInfo.getMacAddress())) {
+                    visionMacList.get(visionMacInfo.getMacAddress()).add(visionMacInfo);
+                } else {
+                    visionMacList.put(visionMacInfo.getMacAddress(), new HashSet<>());
+                    visionMacList.get(visionMacInfo.getMacAddress()).add(visionMacInfo);
+                }
+            }
+
             //计算出所有位置
             List<Position> positionList = new ArrayList<>();
             for(Set<WifiInfo> wifiInfos:macList.values()){
                 Position position = PositionManager.getInstance().calculationPosition(wifiInfos);
                 if(position!=null){
+                    positionList.add(position);
+                }
+            }
+
+            List<Position> positionListAssist = new ArrayList<>();
+            for(Set<VisionMacInfo> visionMacInfos:visionMacList.values()){
+
+                if(visionMacInfos.size()==0||visionMacInfos==null)
+                    continue;
+                Integer fromSensorId=null;
+                for(VisionMacInfo visionMacInfo:visionMacInfos){
+                    fromSensorId=visionMacInfo.getFromSensorId();
+                    break;
+                }
+                if(fromSensorId==null){
+                    continue;
+                }
+
+                SensorArea sensorArea=sensorAreaRepository.findById(fromSensorId);
+                Position position = PositionManager.getInstance().calculatedPositionByVisionMacInfo(visionMacInfos,sensorArea);
+                if(position!=null){
+                    positionListAssist.add(position);
+                }
+            }
+
+            //融合两种数据
+            for(Position position:positionListAssist){
+                String macAddr=position.getMacAddress();
+                boolean exitInPositionList=false;
+                for(Position position1:positionList){
+                    if(position1.getMacAddress().equals(macAddr)){
+                        exitInPositionList=true;
+                        break;
+                    }
+                }
+                if(!exitInPositionList){
                     positionList.add(position);
                 }
             }
