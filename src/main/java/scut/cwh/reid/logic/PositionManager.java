@@ -26,7 +26,8 @@ public class PositionManager implements IPositionManager{
         return instance;
     }
 
-    public Position calculationPosition(Set<WifiInfo> wifiInfoSetPre) {
+    //通过无线信号信息计算位置
+    public Position calculationPosition(Set<WifiInfo> wifiInfoSet) {
 
         double positionWiFi[][]= new double[100][2];
         positionWiFi[0][1]=10;
@@ -66,46 +67,46 @@ public class PositionManager implements IPositionManager{
 //        }
 
 
-        //对同一传感器id的Wi-Fi信号求众数
-        Set<WifiInfo> wifiInfoSet=new HashSet();
-
-        Map<Integer,Set> wifiInfoMap=new HashMap<>();
-        for(WifiInfo wifiInfo:wifiInfoSetPre){
-            if(wifiInfoMap.containsKey(wifiInfo.getFromSensorId())){
-                wifiInfoMap.get(wifiInfo.getFromSensorId()).add(wifiInfo);
-            }else{
-                Set wifiSet=new HashSet<>();
-                wifiSet.add(wifiInfo);
-                wifiInfoMap.put(wifiInfo.getFromSensorId(),wifiSet);
-            }
-        }
-
-        WifiInfo finalWifiInfo=null;
-        for(Set<WifiInfo> value : wifiInfoMap.values()) {
-            Map<Integer,Integer> wifiInfoCountMap=new HashMap<>();
-            for(WifiInfo wifiInfo:value){
-                finalWifiInfo=wifiInfo;
-                if(wifiInfoCountMap.containsKey(wifiInfo.getIntensity())){
-                    wifiInfoCountMap.put(wifiInfo.getIntensity(),wifiInfoCountMap.get(wifiInfo.getIntensity())+1);
-                }else{
-                    wifiInfoCountMap.put(wifiInfo.getIntensity(), 1);
-                }
-            }
-
-            int maxCount=0;
-            int maxCountIntensity=40;
-            for(Integer intensity :wifiInfoCountMap.keySet()){
-                if(wifiInfoCountMap.get(intensity)>=maxCount){
-                    maxCount=wifiInfoCountMap.get(intensity);
-                    maxCountIntensity=intensity;
-                }else{
-                    continue;
-                }
-            }
-
-            finalWifiInfo.setIntensity(maxCountIntensity);
-            wifiInfoSet.add(finalWifiInfo);
-        }
+//        //对同一传感器id的Wi-Fi信号求众数
+//        Set<WifiInfo> wifiInfoSet=new HashSet();
+//
+//        Map<Integer,Set> wifiInfoMap=new HashMap<>();
+//        for(WifiInfo wifiInfo:wifiInfoSetPre){
+//            if(wifiInfoMap.containsKey(wifiInfo.getFromSensorId())){
+//                wifiInfoMap.get(wifiInfo.getFromSensorId()).add(wifiInfo);
+//            }else{
+//                Set wifiSet=new HashSet<>();
+//                wifiSet.add(wifiInfo);
+//                wifiInfoMap.put(wifiInfo.getFromSensorId(),wifiSet);
+//            }
+//        }
+//
+//        WifiInfo finalWifiInfo=null;
+//        for(Set<WifiInfo> value : wifiInfoMap.values()) {
+//            Map<Integer,Integer> wifiInfoCountMap=new HashMap<>();
+//            for(WifiInfo wifiInfo:value){
+//                finalWifiInfo=wifiInfo;
+//                if(wifiInfoCountMap.containsKey(wifiInfo.getIntensity())){
+//                    wifiInfoCountMap.put(wifiInfo.getIntensity(),wifiInfoCountMap.get(wifiInfo.getIntensity())+1);
+//                }else{
+//                    wifiInfoCountMap.put(wifiInfo.getIntensity(), 1);
+//                }
+//            }
+//
+//            int maxCount=0;
+//            int maxCountIntensity=40;
+//            for(Integer intensity :wifiInfoCountMap.keySet()){
+//                if(wifiInfoCountMap.get(intensity)>=maxCount){
+//                    maxCount=wifiInfoCountMap.get(intensity);
+//                    maxCountIntensity=intensity;
+//                }else{
+//                    continue;
+//                }
+//            }
+//
+//            finalWifiInfo.setIntensity(maxCountIntensity);
+//            wifiInfoSet.add(finalWifiInfo);
+//        }
 
 //        Set<WifiInfo> wifiInfoSet=new HashSet<>();
 //        Set<Integer> integerSet=new HashSet<>();
@@ -130,14 +131,17 @@ public class PositionManager implements IPositionManager{
             for(WifiInfo wifiInfo:wifiInfoSet){
                 tmacAddress=wifiInfo.getMacAddress();
                 date=wifiInfo.getCaptureTime();
+                //获取探针位置坐标，即圆心点位置
                 positions[index][0] = positionWiFi[wifiInfo.getFromSensorId()][0];
                 positions[index][1] = positionWiFi[wifiInfo.getFromSensorId()][1];
                 //System.out.println(wifiInfo.getIntensity() + " " + wifiInfo.getFromSensorId()+ "! x:"+positions[index][0]+" y:"+positions[index][1]);
 
+                //计算距离，即圆的半径
                 distances[index] = getDistanceByIntensity(wifiInfo.getIntensity());
                 index++;
             }
 
+            //输入圆心与距离，计算出估计位置
             Position position = PositionUtils.calculatedPosition(positions,distances);
             position.setCaptureTime(date);
             position.setMacAddress(tmacAddress);
@@ -148,6 +152,7 @@ public class PositionManager implements IPositionManager{
         return null;
     }
 
+    //用行人图片信息计算位置
     public Position calculatedPositionByVisionMacInfo(Set<VisionMacInfo> visionMacInfoSet, SensorArea sensorArea){
         if(visionMacInfoSet==null || visionMacInfoSet.size()==0){
             return null;
