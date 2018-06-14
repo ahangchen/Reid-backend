@@ -41,10 +41,36 @@ public class PositionQueryController {
     @ResponseBody
     public Result findPositionByTime(@RequestParam Date startTime, @RequestParam Date endTime) {
 
+        List<WifiInfo> wifiInfoSetPre=wifiSensorRepository.findAllByCaptureTimeBetween(startTime,DateUtils.addSecond(endTime,10));
+        List<VisionMacInfo> visionMacInfoListPre=visionMacSensorRepository.findAllByCaptureTimeBetween(startTime,DateUtils.addSecond(endTime,10));
+
+        //按时间分箱
+        Map<Date,List> wifiInfoTimeSet = new HashMap<>();
+        Map<Date,List> visionInfoTimeSet = new HashMap<>();
+        for(Date i=startTime;!i.after(endTime);i=DateUtils.addSecond(i,1)) {
+
+            List<WifiInfo> tempWifiInfoList = new ArrayList<>();
+            for(WifiInfo wifiInfo:wifiInfoSetPre){
+                if(wifiInfo.getCaptureTime().after(DateUtils.addSecond(i,-1)) && wifiInfo.getCaptureTime().before(DateUtils.addSecond(i,10))){
+                    tempWifiInfoList.add(wifiInfo);
+                }
+            }
+            wifiInfoTimeSet.put(i,tempWifiInfoList);
+
+            List<VisionMacInfo> tempVisionInfoList = new ArrayList<>();
+            for(VisionMacInfo visionMacInfo:visionMacInfoListPre){
+                if(visionMacInfo.getCaptureTime().after(DateUtils.addSecond(i,-1)) && visionMacInfo.getCaptureTime().before(DateUtils.addSecond(i,10))){
+                    tempVisionInfoList.add(visionMacInfo);
+                }
+            }
+            visionInfoTimeSet.put(i,tempVisionInfoList);
+        }
+
         List<PositionInfo> positionInfoList = new ArrayList<>();
         for(Date i=startTime;!i.after(endTime);i=DateUtils.addSecond(i,1)){
-            List<WifiInfo> wifiInfoSet=wifiSensorRepository.findAllByCaptureTimeBetween(i,DateUtils.addSecond(i,10));
-            List<VisionMacInfo> visionMacInfoList=visionMacSensorRepository.findAllByCaptureTimeBetween(i,DateUtils.addSecond(i,10));
+
+            List<WifiInfo> wifiInfoSet = wifiInfoTimeSet.get(i);
+            List<VisionMacInfo> visionMacInfoList = visionInfoTimeSet.get(i);
 
             //按MacAddress分箱
             //处理同一时间内的WifiInfo，按macAddress分箱

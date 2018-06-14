@@ -17,6 +17,7 @@ import java.util.List;
 
 public class Reid {
 
+    //计算两个行人图片信息的相似度
     public static double getSimilarity(VisionMacInfo vision1, VisionMacInfo vision2) {
         JSONObject jsonObject=new JSONObject();
         try {
@@ -52,6 +53,7 @@ public class Reid {
 //            System.out.println("result : "+result.toString());
 
             JSONArray array = result.getJSONArray("sim");
+            //选择最大的相似度返回
             for(int i=0;i<array.length();i++){
                 JSONArray subArray = array.getJSONArray(i);
                 for(int j=0;j<subArray.length();j++){
