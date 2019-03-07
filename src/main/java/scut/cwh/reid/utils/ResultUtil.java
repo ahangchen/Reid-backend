@@ -2,7 +2,7 @@ package scut.cwh.reid.utils;
 
 
 import scut.cwh.reid.config.ResultEnum;
-import scut.cwh.reid.domain.Result;
+import scut.cwh.reid.domain.base.Result;
 
 /**
  * Created by 廖师兄

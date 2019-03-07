@@ -1,7 +1,7 @@
 package scut.cwh.reid.repository;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
-import scut.cwh.reid.domain.WifiInfo;
+import scut.cwh.reid.domain.info.WifiInfo;
 
 import java.util.Date;
 import java.util.List;

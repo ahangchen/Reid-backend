@@ -1,4 +1,4 @@
-package scut.cwh.reid.domain;
+package scut.cwh.reid.domain.base;
 
 public enum FileType {
     IMG("img"),

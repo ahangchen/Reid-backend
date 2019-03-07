@@ -1,6 +1,5 @@
-package scut.cwh.reid.domain;
+package scut.cwh.reid.domain.base;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import scut.cwh.reid.config.FileServerProperties;
 
 import java.io.File;

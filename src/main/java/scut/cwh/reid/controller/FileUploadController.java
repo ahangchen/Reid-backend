@@ -6,7 +6,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import scut.cwh.reid.config.FileServerProperties;
 import scut.cwh.reid.config.ResultEnum;
-import scut.cwh.reid.domain.*;
+import scut.cwh.reid.domain.base.FileInfo;
+import scut.cwh.reid.domain.base.FileType;
+import scut.cwh.reid.domain.base.Result;
 import scut.cwh.reid.utils.ResultUtil;
 
 import java.io.*;

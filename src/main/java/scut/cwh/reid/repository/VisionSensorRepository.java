@@ -1,7 +1,7 @@
 package scut.cwh.reid.repository;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
-import scut.cwh.reid.domain.VisionInfo;
+import scut.cwh.reid.domain.info.VisionInfo;
 
 import java.util.Date;
 import java.util.List;

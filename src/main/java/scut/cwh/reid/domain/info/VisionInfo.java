@@ -1,4 +1,4 @@
-package scut.cwh.reid.domain;
+package scut.cwh.reid.domain.info;
 
 import java.util.Date;
 import java.util.List;

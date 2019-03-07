@@ -1,4 +1,4 @@
-package scut.cwh.reid.domain;
+package scut.cwh.reid.domain.base;
 
 /**
  * http请求返回的最外层对象

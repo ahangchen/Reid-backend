@@ -1,4 +1,4 @@
-package scut.cwh.reid.controller.sensor;
+package scut.cwh.reid.controller.info;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,9 +6,9 @@ import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-import scut.cwh.reid.domain.Result;
-import scut.cwh.reid.domain.VisionInfo;
-import scut.cwh.reid.domain.WifiInfo;
+import scut.cwh.reid.domain.base.Result;
+import scut.cwh.reid.domain.info.VisionInfo;
+import scut.cwh.reid.domain.info.WifiInfo;
 import scut.cwh.reid.repository.VisionSensorRepository;
 import scut.cwh.reid.repository.WifiSensorRepository;
 import scut.cwh.reid.utils.DateUtils;
