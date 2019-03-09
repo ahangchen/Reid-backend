@@ -1,4 +1,4 @@
-package scut.cwh.reid.exception;
+package framework.exception;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

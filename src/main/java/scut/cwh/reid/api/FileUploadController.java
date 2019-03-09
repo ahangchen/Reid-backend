@@ -1,4 +1,4 @@
-package scut.cwh.reid.controller;
+package scut.cwh.reid.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,6 +9,7 @@ import scut.cwh.reid.config.ResultEnum;
 import scut.cwh.reid.domain.base.FileInfo;
 import scut.cwh.reid.domain.base.FileType;
 import scut.cwh.reid.domain.base.Result;
+import scut.cwh.reid.utils.FileUtils;
 import scut.cwh.reid.utils.ResultUtil;
 
 import java.io.*;
@@ -21,20 +22,11 @@ public class FileUploadController {
     private FileServerProperties fileServerProperties;
 
     private Result saveFile(FileInfo fileInfo, MultipartFile file) {
-        if (!file.isEmpty()) {
-            try {
-                BufferedOutputStream out = new BufferedOutputStream(
-                        new FileOutputStream(new File(fileInfo.getFilePath())));
-                out.write(file.getBytes());
-                out.flush();
-                out.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-                return ResultUtil.error(ResultEnum.FILE_UPLOAD_ERROR);
-            }
+        boolean ret = FileUtils.saveRequestFile(fileInfo.getFilePath(), file);
+        if (ret) {
             return ResultUtil.success(fileInfo.getFileUrl());
         } else {
-            return ResultUtil.error(ResultEnum.FILE_EMPTY_ERROR);
+            return ResultUtil.error(ResultEnum.FILE_UPLOAD_ERROR);
         }
     }
 

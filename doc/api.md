@@ -4,7 +4,7 @@
 
 #### API1.1
 后端获取sensor捕捉到的包信息，存入数据库
-  - URL: http://222.201.137.47:12346/sensor/wifi
+  - URL: http://222.201.137.47:12346/wifi/record
   - Type: POST
   - Content-type: x-www-form-urlencoded
   - 参数: 
@@ -38,7 +38,7 @@
     
 #### API1.2
 后端获取sensor捕捉到的图片信息，存入数据库，# TODO 并执行匹配mac地址的逻辑
-  - URL: http://222.201.137.47:12346/sensor/vision
+  - URL: http://222.201.137.47:12346/vision/record
   - Type: POST
   - Content-type: application/json
   - 参数: json格式
@@ -179,7 +179,7 @@
 
 #### API2.5
 前端给出传感器id和时间范围，后端返回符合条件的mac地址列表
-  - URL: http://222.201.137.47:12346/sensor/wifi/list
+  - URL: http://222.201.137.47:12346/wifi/st2mac
   - Type: GET
   - Content-type: multipart/form-data
   - 参数: 
@@ -325,7 +325,7 @@
 
 #### API2.10
 前端给出传感器mac地址和时间范围，后端返回符合条件的图片列表，以及图片中行人的位置
-  - URL: http://222.201.137.47:12346/vision/list?startTime=2017-12-11 07:00:01&endTime=2017-12-11 07:00:10&macAddress=00:11:22:33:44:55:66
+  - URL: http://222.201.137.47:12346/vision/st2imgs?startTime=2017-12-11 07:00:01&endTime=2017-12-11 07:00:10&macAddress=00:11:22:33:44:55:66
   - Type: GET
   - Content-type: multipart/form-data
   - 参数: 

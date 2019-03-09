@@ -1,4 +1,4 @@
-package scut.cwh.reid.controller.info;
+package scut.cwh.reid.api.info;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +18,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-
-@RequestMapping("/multi")
 @CrossOrigin
 @Controller
-public class MultiQueryController {
+@RequestMapping("/multi")
+public class MultiQueryController{
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -31,7 +30,6 @@ public class MultiQueryController {
     }
     @Autowired
     private VisionSensorRepository visionSensorRepository;
-
     @Autowired
     private WifiSensorRepository wifiSensorRepository;
 

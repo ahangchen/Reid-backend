@@ -1,4 +1,4 @@
-package scut.cwh.reid.exception;
+package framework.exception;
 
 import scut.cwh.reid.config.ResultEnum;
 
