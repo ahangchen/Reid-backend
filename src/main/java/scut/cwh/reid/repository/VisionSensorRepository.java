@@ -10,4 +10,5 @@ public interface VisionSensorRepository extends MongoRepository<VisionInfo, Inte
     List<VisionInfo> findAllByFromSensorId(Integer FromSensorId);
     List<VisionInfo> findALLByCaptureTimeBetweenAndFromSensorId(Date startTime, Date endTime, Integer fromSensorId);
     List<VisionInfo> findAllByImgPath(String imgPath);
+    List<VisionInfo> findFirstByOrderByImgIdDesc();
 }

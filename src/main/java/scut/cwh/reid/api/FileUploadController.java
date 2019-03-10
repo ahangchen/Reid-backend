@@ -22,8 +22,9 @@ public class FileUploadController {
     private FileServerProperties fileServerProperties;
 
     private Result saveFile(FileInfo fileInfo, MultipartFile file) {
-        boolean ret = FileUtils.saveRequestFile(fileInfo.getFilePath(), file);
-        if (ret) {
+        String retPath = FileUtils.saveRequestFile(fileInfo.getFilePath(), file);
+        if (retPath != null) {
+            fileInfo.updateInfo(retPath);
             return ResultUtil.success(fileInfo.getFileUrl());
         } else {
             return ResultUtil.error(ResultEnum.FILE_UPLOAD_ERROR);

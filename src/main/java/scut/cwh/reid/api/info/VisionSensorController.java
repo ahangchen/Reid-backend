@@ -5,14 +5,11 @@ import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import scut.cwh.reid.config.FileServerProperties;
-import scut.cwh.reid.domain.base.FileInfo;
-import scut.cwh.reid.domain.base.FileType;
 import scut.cwh.reid.domain.base.Result;
 import scut.cwh.reid.domain.info.VisionInfo;
 import scut.cwh.reid.repository.VisionSensorRepository;
-import scut.cwh.reid.utils.FileUtils;
+import scut.cwh.reid.repository.ctrl.VisionRepoManager;
 import scut.cwh.reid.utils.ResultUtil;
 
 import java.text.SimpleDateFormat;
@@ -38,17 +35,18 @@ public class VisionSensorController {
     public @ResponseBody
     Result recordImg(@RequestBody VisionInfo visionInfo) {
         //save img file to disk and store path info
+        // TODO: sync may be needed
+        int curImgCnt = VisionRepoManager.getImgCnt(visionSensorRepository);
+        visionInfo.setImgId(curImgCnt + 1);
         return ResultUtil.success(visionSensorRepository.save(visionInfo));
     }
 
-    @PostMapping(value = "/upload_record")
-    public @ResponseBody
-    Result uploadRecordImg(@RequestBody VisionInfo visionInfo, @RequestParam("file") MultipartFile file) {
-        //save img file to disk and store path info
-        FileInfo fileInfo = new FileInfo(file.getOriginalFilename(), FileType.IMG, fileServerProperties);
-        FileUtils.saveRequestFile(fileInfo.getFilePath(), file);
-        visionInfo.setImgPath(fileInfo.getFilePath());
-        return ResultUtil.success(visionSensorRepository.save(visionInfo));
+
+    @GetMapping(value = "/imgCnt")
+    @ResponseBody
+    public Result imgCnt() {
+        int imgCnt = VisionRepoManager.getImgCnt(visionSensorRepository);
+        return ResultUtil.success(imgCnt);
     }
 
     @GetMapping(value = "/st2imgs")

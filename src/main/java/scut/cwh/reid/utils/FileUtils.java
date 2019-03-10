@@ -9,21 +9,31 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class FileUtils {
-    public static boolean saveRequestFile(String filePath, MultipartFile file) {
+    public static boolean isExist(String filePath){
+        File f = new File(filePath);
+        return f.exists() && !f.isDirectory();
+    }
+
+    public static String saveRequestFile(String filePath, MultipartFile file) {
         if (!file.isEmpty()) {
+            File f = new File(filePath);
+            if(f.exists()) {
+                filePath = filePath.replace(file.getOriginalFilename(),
+                        file.hashCode() + file.getOriginalFilename());
+            }
+            f = new File(filePath);
             try {
-                BufferedOutputStream out = new BufferedOutputStream(
-                        new FileOutputStream(new File(filePath)));
+                BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(f));
                 out.write(file.getBytes());
                 out.flush();
                 out.close();
-                return true;
+                return filePath;
             } catch (IOException e) {
                 e.printStackTrace();
-                return false;
+                return null;
             }
         } else {
-            return false;
+            return null;
         }
     }
 }

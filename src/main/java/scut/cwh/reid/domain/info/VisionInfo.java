@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 public class VisionInfo extends SensorInfo{
+    private int imgId;
     private String imgPath;
     private List<List<Integer>> boxes;
 
@@ -11,15 +12,17 @@ public class VisionInfo extends SensorInfo{
         super();
     }
 
-    public VisionInfo(Date captureTime, int fromSensorId, String imgPath) {
+    public VisionInfo(Date captureTime, int fromSensorId, String imgPath, int imgId) {
         super(captureTime, fromSensorId);
         this.imgPath = imgPath;
+        this.imgId = imgId;
     }
 
-    public VisionInfo(Date captureTime, int fromSensorId, String imgPath, List<List<Integer>> boxes) {
+    public VisionInfo(Date captureTime, int fromSensorId, String imgPath, int imgId, List<List<Integer>> boxes) {
         super(captureTime, fromSensorId);
         this.imgPath = imgPath;
         this.boxes = boxes;
+        this.imgId = imgId;
     }
 
     public String getImgPath() {
@@ -36,5 +39,13 @@ public class VisionInfo extends SensorInfo{
 
     public void setBoxes(List<List<Integer>> boxes) {
         this.boxes = boxes;
+    }
+
+    public int getImgId() {
+        return imgId;
+    }
+
+    public void setImgId(int imgId) {
+        this.imgId = imgId;
     }
 }
