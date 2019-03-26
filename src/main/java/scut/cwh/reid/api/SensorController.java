@@ -9,10 +9,13 @@ import org.springframework.web.bind.annotation.*;
 import scut.cwh.reid.domain.base.Result;
 import scut.cwh.reid.domain.Sensor;
 import scut.cwh.reid.repository.SensorRepository;
+import scut.cwh.reid.repository.ctrl.SensorManager;
 import scut.cwh.reid.utils.ResultUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import static scut.cwh.reid.config.ResultEnum.UNKNOW_SENSOR;
 
 @CrossOrigin
 @Controller
@@ -28,16 +31,42 @@ public class SensorController{
     @Autowired
     private SensorRepository sensorRepository;
 
-    @PostMapping(value = "/setting")
+    @PostMapping(value = "/record")
     public @ResponseBody
     Result recordSensor(@RequestBody Sensor sensor) {
         //save img file to disk and store path info
+        int maxSensorId = SensorManager.getMaxSensorId(sensorRepository);
+        sensor.setId(maxSensorId + 1);
         return ResultUtil.success(sensorRepository.save(sensor));
+    }
+
+    @PostMapping(value = "/modify")
+    public @ResponseBody
+    Result modifySensor(@RequestBody Sensor sensor) {
+        //save img file to disk and store path info
+        return ResultUtil.success(sensorRepository.save(sensor));
+    }
+
+    @GetMapping(value="cnt")
+    public @ResponseBody
+    Result sensorCount() {
+        return ResultUtil.success(SensorManager.getMaxSensorId(sensorRepository));
     }
      
     @GetMapping(value = "/list")
     @ResponseBody
     public Result findAllSensors(){
         return ResultUtil.success(sensorRepository.findAll());
+    }
+
+    @PostMapping(value = "/delete")
+    @ResponseBody
+    public Result removeSensor(@RequestParam int id) {
+        if(sensorRepository.findById(id) != null) {
+            sensorRepository.removeByIdEquals(id);
+            return ResultUtil.success();
+        } else {
+            return ResultUtil.error(UNKNOW_SENSOR);
+        }
     }
 }

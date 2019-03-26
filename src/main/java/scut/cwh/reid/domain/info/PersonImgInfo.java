@@ -3,34 +3,34 @@ package scut.cwh.reid.domain.info;
 import java.util.Date;
 import java.util.List;
 
-public class VisionInfo extends SensorInfo{
+public class PersonImgInfo extends SensorInfo{
     private int imgId;
-    private String imgPath;
+    private String imgUrl;
     private List<List<Integer>> boxes;
 
-    public VisionInfo() {
+    public PersonImgInfo() {
         super();
     }
 
-    public VisionInfo(Date captureTime, int fromSensorId, String imgPath, int imgId) {
+    public PersonImgInfo(Date captureTime, int fromSensorId, String imgPath, int imgId) {
         super(captureTime, fromSensorId);
-        this.imgPath = imgPath;
+        this.imgUrl = imgPath;
         this.imgId = imgId;
     }
 
-    public VisionInfo(Date captureTime, int fromSensorId, String imgPath, int imgId, List<List<Integer>> boxes) {
+    public PersonImgInfo(Date captureTime, int fromSensorId, String imgPath, int imgId, List<List<Integer>> boxes) {
         super(captureTime, fromSensorId);
-        this.imgPath = imgPath;
+        this.imgUrl = imgPath;
         this.boxes = boxes;
         this.imgId = imgId;
     }
 
-    public String getImgPath() {
-        return imgPath;
+    public String getImgUrl() {
+        return imgUrl;
     }
 
-    public void setImgPath(String imgPath) {
-        this.imgPath = imgPath;
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 
     public List<List<Integer>> getBoxes() {

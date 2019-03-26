@@ -7,6 +7,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Base64;
 
 public class FileUtils {
     public static boolean isExist(String filePath){
@@ -35,5 +36,30 @@ public class FileUtils {
         } else {
             return null;
         }
+    }
+
+    public static boolean saveBase64Img(String base64Img, String filePath) {
+        if(base64Img == null) {
+            return false;
+        }
+//        if(!base64Img.startsWith("data:image/png;base64,")) {
+//            return false;
+//        }
+//        String[] blocks = base64Img.split("base64,");
+//        byte[] imgByte = Base64.getDecoder().decode(blocks[1]);
+        byte[] imgByte = Base64.getDecoder().decode(base64Img);
+        try {
+            new FileOutputStream(filePath).write(imgByte);
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+    }
+
+    public static void main(String[]args){
+        String[] blocks = "data:image/png;base64,aaa".split("base64,");
+        System.out.println(blocks[1]);
     }
 }

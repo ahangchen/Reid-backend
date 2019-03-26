@@ -15,7 +15,7 @@ import java.util.Date;
 @CrossOrigin
 @Controller
 @RequestMapping("/wifi")
-public class WifiSensorController {
+public class WifiInfoController {
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -37,5 +37,12 @@ public class WifiSensorController {
     public Result findMacBySensorIdAndTime(@RequestParam Integer id, @RequestParam Date startTime, @RequestParam Date endTime) {
         //save img file to disk and store path info
         return ResultUtil.success(wifiSensorRepository.findALLByCaptureTimeBetweenAndFromSensorId(startTime, endTime, id));
+    }
+
+    @GetMapping(value = "/mac2st")
+    @ResponseBody
+    public Result findTrackByMac(@RequestParam String macAddress) {
+        //save img file to disk and store path info
+        return ResultUtil.success(wifiSensorRepository.findAllByMacAddress(macAddress));
     }
 }

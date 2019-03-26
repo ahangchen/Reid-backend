@@ -7,8 +7,8 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import scut.cwh.reid.config.FileServerProperties;
 import scut.cwh.reid.domain.base.Result;
-import scut.cwh.reid.domain.info.VisionInfo;
-import scut.cwh.reid.repository.VisionSensorRepository;
+import scut.cwh.reid.domain.info.PersonImgInfo;
+import scut.cwh.reid.repository.PersonImgInfoRepo;
 import scut.cwh.reid.repository.ctrl.VisionRepoManager;
 import scut.cwh.reid.utils.ResultUtil;
 
@@ -18,7 +18,7 @@ import java.util.Date;
 @CrossOrigin
 @Controller
 @RequestMapping("/vision")
-public class VisionSensorController {
+public class VisionInfoController {
     @Autowired
     private FileServerProperties fileServerProperties;
 
@@ -29,23 +29,23 @@ public class VisionSensorController {
         binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));//true:允许输入空值，false:不能为空值
     }
     @Autowired
-    private VisionSensorRepository visionSensorRepository;
+    private PersonImgInfoRepo personImgInfoRepo;
 
     @PostMapping(value = "/record")
     public @ResponseBody
-    Result recordImg(@RequestBody VisionInfo visionInfo) {
+    Result recordImg(@RequestBody PersonImgInfo visionInfo) {
         //save img file to disk and store path info
         // TODO: sync may be needed
-        int curImgCnt = VisionRepoManager.getImgCnt(visionSensorRepository);
+        int curImgCnt = VisionRepoManager.getImgCnt(personImgInfoRepo);
         visionInfo.setImgId(curImgCnt + 1);
-        return ResultUtil.success(visionSensorRepository.save(visionInfo));
+        return ResultUtil.success(personImgInfoRepo.save(visionInfo));
     }
 
 
     @GetMapping(value = "/imgCnt")
     @ResponseBody
     public Result imgCnt() {
-        int imgCnt = VisionRepoManager.getImgCnt(visionSensorRepository);
+        int imgCnt = VisionRepoManager.getImgCnt(personImgInfoRepo);
         return ResultUtil.success(imgCnt);
     }
 
@@ -53,7 +53,7 @@ public class VisionSensorController {
     @ResponseBody
     public Result findImgBySensorIdAndTime(@RequestParam Integer sensorId, @RequestParam Date startTime, @RequestParam Date endTime) {
         //search with spatial and temporal info
-        return ResultUtil.success(visionSensorRepository.findALLByCaptureTimeBetweenAndFromSensorId(startTime, endTime, sensorId));
+        return ResultUtil.success(personImgInfoRepo.findALLByCaptureTimeBetweenAndFromSensorId(startTime, endTime, sensorId));
     }
 
     @GetMapping(value = "/img2st")
@@ -61,7 +61,7 @@ public class VisionSensorController {
     public Result findSensorIdAndTimeByImg(@RequestParam String filePath) {
         //find similarity imgs in db
         // retrieve img infos
-        return ResultUtil.success(visionSensorRepository.findAllByImgPath(filePath));
+        return ResultUtil.success(personImgInfoRepo.findAllByImgUrl(filePath));
     }
 
 }

@@ -47,13 +47,13 @@
   {
 	"captureTime": "2017-12-17 16:21:00",
 	"fromSensorId": "1",
-	"imgPath": "http://222.201.137.47:12347/img/rasp-wifi.png",
+	"imgUrl": "http://222.201.137.47:12347/img/rasp-wifi.png",
 	"boxes": [[0, 1, 2, 3], [2, 3,3,4]]
 }
   ```
     - captureTime: 捕获时间，为yyyy-MM-dd hh:mm:ss格式
     - fromSensorId: 传感器id，一个整数，范围[0,2^32)
-    - imgPath: 图片的URL，需要先调用[接口](#前端上传图片文件，后端返回一个URL)来获取，注意同步
+    - imgUrl: 图片的URL，需要先调用[接口](#前端上传图片文件，后端返回一个URL)来获取，注意同步
     - boxes: 图片中行人的坐标
   - 返回值:
     - 写入成功
@@ -65,7 +65,7 @@
         "data": {
             "captureTime": "2017-12-11 07:00:00",
             "fromSensorId": 0,
-            "imgPath": "http://222.201.145.237:8888/img/rasp-wifi.png"
+            "imgUrl": "http://222.201.145.237:8888/img/rasp-wifi.png"
         }
     }
     ```
@@ -297,7 +297,7 @@
             {
                 "captureTime": "2017-12-11 07:00:00",
                 "fromSensorId": 0,
-                "imgPath": "http://222.201.145.237:8888//img/rasp-wifi.png",
+                "imgUrl": "http://222.201.145.237:8888//img/rasp-wifi.png",
                 "boxes": [
                     [ 0, 302, 221, 73 ],
                     [ 361, 0, 139, 375]
@@ -306,7 +306,7 @@
             {
                 "captureTime": "2017-12-11 07:00:00",
                 "fromSensorId": 0,
-                "imgPath": "http://222.201.145.237:8888//img/rasp-wifi.png",
+                "imgUrl": "http://222.201.145.237:8888//img/rasp-wifi.png",
                 "boxes": [
                     [ 0, 302, 221, 73 ],
                     [ 361, 0, 139, 375]
@@ -315,7 +315,7 @@
             {
                 "captureTime": "2017-12-11 07:00:00",
                 "fromSensorId": 0,
-                "imgPath": "http://222.201.145.237:8888//img/rasp-wifi.png",
+                "imgUrl": "http://222.201.145.237:8888//img/rasp-wifi.png",
                 "boxes": null
             }
         ]
@@ -343,7 +343,7 @@
             {
                 "captureTime": "2017-12-11 07:00:03",
                 "fromSensorId": 1,
-                "imgPath": "http://222.201.137.47:12347/img/rasp-wifi.png",
+                "imgUrl": "http://222.201.137.47:12347/img/rasp-wifi.png",
                 "boxes": [
                     [ 0, 302, 221, 73 ],
                     [ 361, 0, 139, 375]
@@ -353,7 +353,7 @@
             {
                 "captureTime": "2017-12-11 07:00:04",
                 "fromSensorId": 1,
-                "imgPath": "http://222.201.137.47:12347/img/rasp-wifi.png",
+                "imgUrl": "http://222.201.137.47:12347/img/rasp-wifi.png",
                 "boxes": [
                     [ 0, 302, 221, 73 ],
                     [ 361, 0, 139, 375]
@@ -363,7 +363,7 @@
             {
                 "captureTime": "2017-12-11 07:00:03",
                 "fromSensorId": 1,
-                "imgPath": "http://222.201.137.47:12347/img/rasp-wifi.png",
+                "imgUrl": "http://222.201.137.47:12347/img/rasp-wifi.png",
                 "boxes": [
                     [ 0, 302, 221, 73 ],
                     [ 361, 0, 139, 375]

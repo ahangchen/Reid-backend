@@ -34,8 +34,14 @@ public class FileUploadController {
     @PostMapping(value = "/img")
     @ResponseBody
     public Result saveImg(@RequestParam("file") MultipartFile file) {
-        //TODO save img file to disk and store path info
         FileInfo fileInfo = new FileInfo(file.getOriginalFilename(), FileType.IMG, fileServerProperties);
+        return saveFile(fileInfo, file);
+    }
+
+    @PostMapping(value = "/img/base64")
+    @ResponseBody
+    public Result saveBase64Img(@RequestParam("file") MultipartFile file) {
+        FileInfo fileInfo = new FileInfo("query_" + file.hashCode() + ".png", FileType.IMG, fileServerProperties);
         return saveFile(fileInfo, file);
     }
 
