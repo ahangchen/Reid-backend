@@ -391,3 +391,139 @@
 #### API 4.1
 上传预警图像
 
+
+## 5. Fiber API
+#### API5.1
+新增单个光纤传感器信息 同API1.6
+
+#### API5.2
+新增光纤传感器与摄像头的对应关系
+
+- URL: http://222.201.145.237:8081/fiber/map/record
+  - Type: POST
+  - Content-type: application/json
+  - 参数: json格式
+  
+```json
+{
+	"cameraId": 1, // 此区间对应的摄像头ID
+	"fiberId": 10, //光纤传感器ID
+	"startPos": 0.0, // 区间起始位置
+	"endPos": 10.0  // 区间终止位置
+}
+```
+
+- 返回值
+```json
+{
+    "code": 0,
+    "msg": "成功",
+    "data": {
+        "fiberId": 10,
+        "cameraId": 1,
+        "startPos": 0,
+        "endPos": 10
+    }
+}
+```
+
+
+#### API 5.3
+查询指定光纤传感器对应的所有摄像头与位置
+
+ - URL: http://222.201.145.237:8081/fiber/map/query?fiberId=10
+  - Type: GET
+  - Content-type: multipart/form-data
+  - 参数: 
+    - fiberId: 光纤传感器ID
+  - 返回值：
+  
+  ```json
+  {
+    "code": 0,
+    "msg": "成功",
+    "data": [
+        {
+            "fiberId": 10,
+            "cameraId": 1,
+            "startPos": 0,
+            "endPos": 10
+        },
+        {
+            "fiberId": 10,
+            "cameraId": 2,
+            "startPos": 10,
+            "endPos": 20
+        }
+    ]
+  }
+```
+
+#### API 5.4
+新增光纤传感器捕捉到的事件
+
+
+- URL: http://222.201.145.237:8081/fiber/event/record
+  - Type: POST
+  - Content-type: application/json
+  - 参数: json格式
+  
+```json
+{
+	"captureTime": "2019-03-27 14:59:26", // 事件捕捉时间
+	"fromSensorId": 10, // 光纤传感器ID
+	"eventType": 1, // 事件类型
+	"position": 10.0, // 事件位置（在光纤上的哪个位置）
+	"confidence": 0.5 // 事件类型的置信度
+}
+```
+
+- 返回值
+```json
+{
+    "code": 0,
+    "msg": "成功",
+    "data": {
+        "captureTime": "2019-03-27 14:59:26",
+        "fromSensorId": 10,
+        "position": 10,
+        "eventType": 1,
+        "confidence": 0.5
+    }
+}
+```
+
+#### API 5.3
+查询指定光纤传感器在某段时间之间捕捉到的事件列表
+
+ - URL: http://222.201.145.237:8081/fiber/event/query?fiberId=10&start=2019-03-27 14:00:26&end=2019-03-27 15:30:26
+  - Type: GET
+  - Content-type: multipart/form-data
+  - 参数: 
+    - fiberId: 光纤传感器ID
+    - start: 起始时间
+    - end: 结束时间
+  - 返回值：
+  
+  ```json
+  {
+    "code": 0,
+    "msg": "成功",
+    "data": [
+        {
+            "captureTime": "2019-03-27 14:59:26",
+            "fromSensorId": 10,
+            "position": 10,
+            "eventType": 1,
+            "confidence": 0.5
+        },
+        {
+            "captureTime": "2019-03-27 14:59:26",
+            "fromSensorId": 10,
+            "position": 10,
+            "eventType": 1,
+            "confidence": 0.5
+        }
+    ]
+}
+```
