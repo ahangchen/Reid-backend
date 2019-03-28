@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import scut.cwh.reid.domain.base.Result;
 import scut.cwh.reid.domain.info.PersonImgInfo;
 import scut.cwh.reid.domain.info.WifiInfo;
-import scut.cwh.reid.repository.PersonImgInfoRepo;
-import scut.cwh.reid.repository.WifiSensorRepository;
+import scut.cwh.reid.repository.repo.PersonImgInfoRepo;
+import scut.cwh.reid.repository.repo.WifiInfoRepo;
 import scut.cwh.reid.utils.DateUtils;
 import scut.cwh.reid.utils.ResultUtil;
 
@@ -31,7 +31,7 @@ public class MultiQueryController{
     @Autowired
     private PersonImgInfoRepo visionSensorRepository;
     @Autowired
-    private WifiSensorRepository wifiSensorRepository;
+    private WifiInfoRepo wifiSensorRepository;
 
     @GetMapping(value = "/mac2vision")
     public @ResponseBody

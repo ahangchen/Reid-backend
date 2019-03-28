@@ -1,7 +1,7 @@
 package scut.cwh.reid.repository.ctrl;
 
 import scut.cwh.reid.domain.info.PersonImgInfo;
-import scut.cwh.reid.repository.PersonImgInfoRepo;
+import scut.cwh.reid.repository.repo.PersonImgInfoRepo;
 
 import java.util.List;
 

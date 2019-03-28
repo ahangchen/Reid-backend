@@ -8,7 +8,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import scut.cwh.reid.domain.base.Result;
 import scut.cwh.reid.domain.Sensor;
-import scut.cwh.reid.repository.SensorRepository;
+import scut.cwh.reid.repository.repo.SensorRepo;
 import scut.cwh.reid.repository.ctrl.SensorManager;
 import scut.cwh.reid.utils.ResultUtil;
 
@@ -29,7 +29,7 @@ public class SensorController{
     }
 
     @Autowired
-    private SensorRepository sensorRepository;
+    private SensorRepo sensorRepository;
 
     @PostMapping(value = "/record")
     public @ResponseBody
@@ -57,6 +57,12 @@ public class SensorController{
     @ResponseBody
     public Result findAllSensors(){
         return ResultUtil.success(sensorRepository.findAll());
+    }
+
+    @GetMapping(value = "/list/type")
+    @ResponseBody
+    public Result findTypeSensors(@RequestParam String type){
+        return ResultUtil.success(sensorRepository.findAllByTypeEquals(type));
     }
 
     @PostMapping(value = "/delete")

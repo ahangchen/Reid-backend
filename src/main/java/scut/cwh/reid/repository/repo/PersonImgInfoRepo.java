@@ -1,4 +1,4 @@
-package scut.cwh.reid.repository;
+package scut.cwh.reid.repository.repo;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import scut.cwh.reid.domain.info.PersonImgInfo;

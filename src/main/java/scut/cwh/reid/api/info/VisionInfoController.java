@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import scut.cwh.reid.config.FileServerProperties;
 import scut.cwh.reid.domain.base.Result;
 import scut.cwh.reid.domain.info.PersonImgInfo;
-import scut.cwh.reid.repository.PersonImgInfoRepo;
+import scut.cwh.reid.repository.repo.PersonImgInfoRepo;
 import scut.cwh.reid.repository.ctrl.VisionRepoManager;
 import scut.cwh.reid.utils.ResultUtil;
 
