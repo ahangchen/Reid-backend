@@ -1,5 +1,6 @@
 package scut.cwh.reid.repository.repo;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import scut.cwh.reid.domain.info.PersonImgInfo;
 
@@ -11,4 +12,5 @@ public interface PersonImgInfoRepo extends MongoRepository<PersonImgInfo, Intege
     List<PersonImgInfo> findALLByCaptureTimeBetweenAndFromSensorId(Date startTime, Date endTime, Integer fromSensorId);
     List<PersonImgInfo> findAllByImgUrl(String imgPath);
     List<PersonImgInfo> findFirstByOrderByImgIdDesc();
+    List<PersonImgInfo> findAllByFromSensorIdOrderByImgIdDesc(Integer fromSensorId, Pageable pageable);
 }

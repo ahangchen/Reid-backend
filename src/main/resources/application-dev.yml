@@ -5,6 +5,10 @@ fileServer:
   host: "http://222.201.145.237:8080/"
   path: "/home/cwh/coding/reid_file_backend"
 
+djangoServer:
+  detectApi: "http://222.201.145.237:8082/reid/detect"
+  topnApi: "http://222.201.145.237:8082/reid/topn"
+
 spring:
   data:
     mongodb:

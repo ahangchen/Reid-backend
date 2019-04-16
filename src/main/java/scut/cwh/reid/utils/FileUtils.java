@@ -1,6 +1,7 @@
 package scut.cwh.reid.utils;
 
 import org.springframework.web.multipart.MultipartFile;
+import scut.cwh.reid.config.FileServerProperties;
 import scut.cwh.reid.config.ResultEnum;
 
 import java.io.BufferedOutputStream;
@@ -56,6 +57,15 @@ public class FileUtils {
             return false;
         }
 
+    }
+
+    public static String url2Path(String fileUrl, FileServerProperties fsp) {
+        fileUrl = fileUrl.replace("//reid/", "/reid/");
+        return fileUrl.replace(fsp.getHost() + "reid", fsp.getPath());
+    }
+
+    public static String path2Url(String filePath, FileServerProperties fsp) {
+        return filePath.replace(fsp.getPath(), fsp.getHost() + "reid");
     }
 
     public static void main(String[]args){
