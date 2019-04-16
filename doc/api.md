@@ -4,7 +4,7 @@
 
 #### API1.1
 后端获取sensor捕捉到的包信息，存入数据库
-  - URL: http://222.201.137.47:12346/wifi/record
+  - URL: http://222.201.145.237:8081/wifi/record
   - Type: POST
   - Content-type: x-www-form-urlencoded
   - 参数: 
@@ -38,7 +38,7 @@
     
 #### API1.2
 后端获取sensor捕捉到的图片信息，存入数据库，# TODO 并执行匹配mac地址的逻辑
-  - URL: http://222.201.137.47:12346/vision/record
+  - URL: http://222.201.145.237:8081/vision/record
   - Type: POST
   - Content-type: application/json
   - 参数: json格式
@@ -72,7 +72,7 @@
 
 #### API1.5
 前端上传图片文件，后端返回一个URL
-  - URL: http://222.201.137.47:12346/file/img
+  - URL: http://222.201.145.237:8081/file/img
   - Type: POST
   - Content-type: multipart/form-data
   - 参数: 
@@ -91,7 +91,7 @@
 
 #### API1.6
 新增单个传感器信息
- - URL: http://222.201.137.47:12346/sensor/setting
+ - URL: http://222.201.145.237:8081/sensor/setting
   - Type: POST
   - Content-type: application/json
   - 参数: json格式
@@ -132,7 +132,7 @@
 ## 2.Web 检索
 #### API2.1
 前端获取后端的传感器列表
-- URL: http://222.201.137.47:12346/sensor/list
+- URL: http://222.201.145.237:8081/sensor/list
   - Type: GET
   - Content-type: multipart/form-data
   - 参数: 
@@ -179,7 +179,7 @@
 
 #### API2.5
 前端给出传感器id和时间范围，后端返回符合条件的mac地址列表
-  - URL: http://222.201.137.47:12346/wifi/st2mac
+  - URL: http://222.201.145.237:8081/wifi/st2mac
   - Type: GET
   - Content-type: multipart/form-data
   - 参数: 
@@ -226,7 +226,7 @@
 #### API2.6
 前端给出mac地址和时间段，后端返回mac被检索到时所在的传感器id列表
 
-  - URL: http://222.201.137.47:12346/multi/mac2sensor
+  - URL: http://222.201.145.237:8081/multi/mac2sensor
   - Type: GET
   - Content-type: multipart/form-data
   - 参数: 
@@ -279,7 +279,7 @@
 #### API2.7
 前端给出mac地址和时间段，后端返回相关图片列表，以及捕捉时间，对应的传感器id
 
-  - URL: http://222.201.137.47:12346/multi/mac2vision
+  - URL: http://222.201.145.237:8081/multi/mac2vision
   - Type: GET
   - Content-type: multipart/form-data
   - 参数: 
@@ -325,7 +325,7 @@
 
 #### API2.10
 前端给出传感器mac地址和时间范围，后端返回符合条件的图片列表，以及图片中行人的位置
-  - URL: http://222.201.137.47:12346/vision/st2imgs?startTime=2017-12-11 07:00:01&endTime=2017-12-11 07:00:10&macAddress=00:11:22:33:44:55:66
+  - URL: http://222.201.145.237:8081/vision/st2imgs?startTime=2017-12-11 07:00:01&endTime=2017-12-11 07:00:10&macAddress=00:11:22:33:44:55:66
   - Type: GET
   - Content-type: multipart/form-data
   - 参数: 
