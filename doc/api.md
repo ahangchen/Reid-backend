@@ -394,6 +394,46 @@
 前端给出mac地址，后端返回mac检索到的相关图片列表，以及捕捉时间，对应的传感器id，音频列表
 
 
+#### API 2.12
+前端给出sensorId和数量cnt，返回最近的cnt张图片
+- URL: http://222.201.145.237:8081/vision/recent_detail?cnt=20&sensorId=10
+  - Type: GET
+  - Content-type: multipart/form-data
+  - 参数: 
+    - cnt: mac地址
+    - sensorId: 传感器ID
+  - 返回值：
+    - 成功：
+    ```json
+    {
+        "code": 0,
+        "msg": "成功",
+        "data": [
+            {
+                "captureTime": "2019-04-13 16:21:00",
+                "fromSensorId": 1,
+                "imgId": 49604,
+                "imgUrl": "http://222.201.145.237:8080//reid/img/1832608662019_03_29_19_02_400.jpg",
+                "boxes": [
+                    [1,2,3,4],
+                    [1,2,3,4]
+                ]
+            },
+            {
+                "captureTime": "2019-04-13 16:21:00",
+                "fromSensorId": 1,
+                "imgId": 49603,
+                "imgUrl": "http://222.201.145.237:8080//reid/img/8923144312019_03_29_19_02_400.jpg",
+                "boxes": [
+                    [1,2,3,4],
+                    [1,2,3,4]
+                ]
+            }
+        ]
+    }
+    ```
+
+
 ## 3. Machine Learning Reid
 
 #### API3.1

@@ -120,12 +120,18 @@ public class VisionInfoController {
         List<List<PersonImgInfo>> cameraPersonImgs = new ArrayList<List<PersonImgInfo>>();
         for (Sensor camera: cameras) {
             List<PersonImgInfo> personImgs = personImgInfoRepo.findAllByFromSensorIdOrderByImgIdDesc(camera.getId(), new PageRequest(0, perCamera));
-            for(int i = 0; i < personImgs.size(); i ++) {
-                personImgs.get(i).setImgUrl(personImgs.get(i).getImgUrl());
-            }
+//            for(int i = 0; i < personImgs.size(); i ++) {
+//                personImgs.get(i).setImgUrl(personImgs.get(i).getImgUrl());
+//            }
             cameraPersonImgs.add(personImgs);
         }
         return ResultUtil.success(cameraPersonImgs);
     }
 
+    @GetMapping(value="/recent_detail")
+    @ResponseBody
+    public Result recentImgSeq(@RequestParam int cnt, @RequestParam int sensorId) {
+        List<PersonImgInfo> personImgs = personImgInfoRepo.findAllByFromSensorIdOrderByImgIdDesc(sensorId, new PageRequest(0, cnt));
+        return ResultUtil.success(personImgs);
+    }
 }
