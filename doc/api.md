@@ -396,7 +396,7 @@
 
 #### API 2.12
 前端给出sensorId和数量cnt，返回最近的cnt张图片
-- URL: http://222.201.145.237:8081/vision/recent_detail?cnt=20&sensorId=10
+- URL: http://222.201.145.237:8081/vision/recent_detail?cnt=2&sensorId=10
   - Type: GET
   - Content-type: multipart/form-data
   - 参数: 
