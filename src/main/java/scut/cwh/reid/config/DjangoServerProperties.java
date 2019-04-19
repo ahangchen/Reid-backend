@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 public class DjangoServerProperties {
     private String detectApi;
     private String topnApi;
+    private String fusionTopnApi;
 
     public String getDetectApi() {
         return detectApi;
@@ -23,5 +24,13 @@ public class DjangoServerProperties {
 
     public void setTopnApi(String topnApi) {
         this.topnApi = topnApi;
+    }
+
+    public String getFusionTopnApi() {
+        return fusionTopnApi;
+    }
+
+    public void setFusionTopnApi(String fusionTopnApi) {
+        this.fusionTopnApi = fusionTopnApi;
     }
 }

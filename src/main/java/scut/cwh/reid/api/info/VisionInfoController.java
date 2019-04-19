@@ -113,6 +113,22 @@ public class VisionInfoController {
         return ResultUtil.success(topNResp);
     }
 
+    @PostMapping(value="/fusion_topn")
+    @ResponseBody
+    public Result fusionTopN(@RequestParam String queryUrl, @RequestParam String camera, @RequestParam String time) {
+        String queryImgPath = FileUtils.url2Path(queryUrl, fsp);
+//        return ResultUtil.success(queryImgPath);
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("img_path", queryImgPath);
+        params.put("n", "20");
+        params.put("c", camera);
+        params.put("t", time);
+        String resultJson = NetworkUtils.postForm(djangoServerProperties.getFusionTopnApi(), params);
+//        return ResultUtil.success(resultJson);
+        TopNResp topNResp = new Gson().fromJson(resultJson, TopNResp.class);
+        return ResultUtil.success(topNResp);
+    }
+
     @GetMapping(value="/recent")
     @ResponseBody
     public Result queryRecent(@RequestParam int perCamera) {

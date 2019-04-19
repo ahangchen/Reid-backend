@@ -8,6 +8,7 @@ fileServer:
 djangoServer:
   detectApi: "http://222.201.145.237:8082/reid/detect"
   topnApi: "http://222.201.145.237:8082/reid/topn"
+  fusionTopnApi: "http://222.201.145.237:8082/reid/fusion_topn"
 
 spring:
   data:
