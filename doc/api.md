@@ -101,13 +101,16 @@
 	"id": "1",
 	"macAddress": "00:11:22:33:44:66",
 	"latitude": 40.0,
-	"longitude": 110.0 
+	"longitude": 110.0,
+	"type": "mp4",
+	"desp": "中大东门口"
   }
   ```
     - macAddress: 传感器上一个无线网卡的mac地址
     - id: 传感器id，一个整数，范围[0,2^32)
     - latitude: 传感器所在纬度
     - longitude: 传感器所在经度
+    - type: 
   - 返回值:
     - 写入成功
     
