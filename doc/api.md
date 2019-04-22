@@ -110,7 +110,8 @@
     - id: 传感器id，一个整数，范围[0,2^32)
     - latitude: 传感器所在纬度
     - longitude: 传感器所在经度
-    - type: 
+    - type: 传感器类型，字符串，"mp4"类型在前端展示为可播放的视频，"img_seq"类型在前端展示为最新的n张图片轮播
+    - desp: 传感器描述，字符串
   - 返回值:
     - 写入成功
     
@@ -129,7 +130,8 @@
 
 
 #### API1.7
-新增单个传感器信息
+获取当前最大图片id
+
  - URL: http://222.201.145.237:8081/vision/imgCnt
   - Type: GET
   
@@ -143,10 +145,8 @@
         "data": 49600
     }
     ```
-
+- data即最大图片id
     
-#### API1.8
-批量新增传感器信息
 
 ## 2.Web 检索
 #### API2.1
@@ -168,33 +168,38 @@
             "id": 0,
             "latitude": 40.5,
             "longitude": 110.7,
-            "macAddress": "00:11:22:33:44:66"
+            "macAddress": "00:11:22:33:44:66",
+            "type": "mp4",
+            "desp": "中大东门口"
         },
         {
             "id": 1,
             "latitude": 39.3,
             "longitude": 110.5,
-            "macAddress": "02:11:22:33:44:66"
+            "macAddress": "02:11:22:33:44:66",
+            "type": "mp4",
+            "desp": "中大东门口"
         },
         {
             "id": 2,
             "latitude": 40.2,
             "longitude": 110.1,
-            "macAddress": "03:11:22:33:44:66"
+            "macAddress": "03:11:22:33:44:66",
+            "type": "mp4",
+            "desp": "中大东门口"
         },
         {
             "id": 3,
             "latitude": 41.2,
             "longitude": 111.1,
-            "macAddress": "04:11:22:33:44:66"
+            "macAddress": "04:11:22:33:44:66",
+            "type": "mp4",
+            "desp": "中大东门口"
         }
     ]
     }
     ```
 
-
-#### API2.4
-前端给出传感器id和时间范围，后端返回符合条件的音频列表
 
 #### API2.5
 前端给出传感器id和时间范围，后端返回符合条件的mac地址列表
@@ -203,8 +208,8 @@
   - Content-type: multipart/form-data
   - 参数: 
     - id: 传感器id
-    - startTime: 起始时间,格式类似： 2017-12-11 07:00:00
-    - endTime: 终止时间,格式类似 2017-12-11 07:00:00
+    - startTime: 起始时间,格式为： 2017-12-11 07:00:00
+    - endTime: 终止时间,格式为 2017-12-11 07:00:00
   - 返回值：
     - 成功：
     
@@ -215,18 +220,6 @@
     "data": [
         {
             "captureTime": "2017-12-11 07:00:05",
-            "fromSensorId": 0,
-            "macAddress": "00:11:22:33:44:55:66",
-            "intensity": 0
-        },
-        {
-            "captureTime": "2017-12-11 07:00:05",
-            "fromSensorId": 0,
-            "macAddress": "00:11:22:33:44:55:66",
-            "intensity": 0
-        },
-        {
-            "captureTime": "2017-12-11 07:00:00",
             "fromSensorId": 0,
             "macAddress": "00:11:22:33:44:55:66",
             "intensity": 0
@@ -271,24 +264,6 @@
                 "fromSensorId": 0,
                 "macAddress": "00:11:22:33:44:55:66",
                 "intensity": 0
-            },
-            {
-                "captureTime": "2017-12-11 07:00:00",
-                "fromSensorId": 0,
-                "macAddress": "00:11:22:33:44:55:66",
-                "intensity": 0
-            },
-            {
-                "captureTime": "2017-12-11 07:00:05",
-                "fromSensorId": 0,
-                "macAddress": "00:11:22:33:44:55:66",
-                "intensity": 0
-            },
-            {
-                "captureTime": "2018-03-01 07:00:05",
-                "fromSensorId": 1,
-                "macAddress": "00:11:22:33:44:55:66",
-                "intensity": 0
             }
         ]
     }
@@ -296,7 +271,7 @@
 
 
 #### API2.7
-前端给出mac地址和时间段，后端返回相关图片列表，以及捕捉时间，对应的传感器id
+前端给出mac地址和时间段，后端返回相关图片列表，以及捕捉时间，对应的传感器id（是2.6的升级版）
 
   - URL: http://222.201.145.237:8081/multi/mac2vision
   - Type: GET
@@ -348,7 +323,7 @@
   - Type: GET
   - Content-type: multipart/form-data
   - 参数: 
-    - macAddress: mac地址
+    - macAddress: mac地址 // 以后可以考虑修改为传感器id
     - startTime: 起始时间
     - endTime: 终止时间 
   - 返回值：
@@ -393,12 +368,9 @@
     }
     ```
 
-#### API2.11
-前端给出mac地址，后端返回mac检索到的相关图片列表，以及捕捉时间，对应的传感器id，音频列表
-
 
 #### API 2.12
-前端给出sensorId和数量cnt，返回最近的cnt张图片
+前端给出sensorId和数量cnt，返回最近的cnt张图片（可用于img_seq展示）
 - URL: http://222.201.145.237:8081/vision/recent_detail?cnt=2&sensorId=10
   - Type: GET
   - Content-type: multipart/form-data
@@ -440,11 +412,117 @@
 ## 3. Machine Learning Reid
 
 #### API3.1
-前端给出图片文件或图片url，后端返回图像检索到的相似图片列表(长度为N，可指定)，以及捕捉时间，对应的传感器id，音频列表，mac地址列表
+前端给出图片url，后端返回图像检索到的相似图片列表(长度为N，可指定)，以及捕捉时间，对应的传感器id，按视觉相似度排序
+
+> 是对[Django API 1.1](https://github.com/ahangchen/deep_reid_backend/blob/master/doc/api.md#api11)的一个封装，将本地地址替换为tomcat虚拟目录对应的URL
+
+- URL: http://222.201.145.237:8081/vision/topn
+  - Type: POST
+  - Content-type: multipart/form-data
+  - 参数: 
+    - queryUrl: 查询图片的url，要求已通过API1.5上传到服务器上
+  - 返回值：
+    - 成功：
+    ```json
+    {
+        "code": 0,
+        "msg": "成功",
+        "data": [
+            {
+                "captureTime": "2019-04-13 16:21:00",
+                "fromSensorId": 1,
+                "imgId": 49604,
+                "imgUrl": "http://222.201.145.237:8080//reid/img/1832608662019_03_29_19_02_400.jpg",
+                "boxes": [
+                    [1,2,3,4],
+                    [1,2,3,4]
+                ]
+            },
+            {
+                "captureTime": "2019-04-13 16:21:00",
+                "fromSensorId": 1,
+                "imgId": 49603,
+                "imgUrl": "http://222.201.145.237:8080//reid/img/8923144312019_03_29_19_02_400.jpg",
+                "boxes": [
+                    [1,2,3,4],
+                    [1,2,3,4]
+                ]
+            }
+        ]
+    }
+    ```
+
 
 #### API3.2
-前端给出图片url或图片文件，以及拍摄时间和传感器ID，后端返回图像+时空融合检索到的相似图片列表，以及捕捉时间，对应的传感器id，音频列表，mac地址列表
+前端给出图片url，以及拍摄时间和传感器ID，后端返回图像+时空融合检索到的相似图片列表，以及捕捉时间，对应的传感器id，按融合相似度排序
 
+> 是对[Django API 2.1](https://github.com/ahangchen/deep_reid_backend/blob/master/doc/api.md#api21)的一个封装，将本地地址替换为tomcat虚拟目录对应的URL
+
+- URL: http://222.201.145.237:8081/vision/fusion_topn
+  - Type: POST
+  - Content-type: multipart/form-data
+  - 参数: 
+    - queryUrl: 查询图片的url，要求已通过API1.5上传到服务器上
+    - c: 拍摄图片的传感器ID，可通过API2.1获得当前所有传感器列表
+    - t: 图片拍摄时间，格式为 yyyy-mm-dd hh:MM:ss
+  - 返回值：20张最相似的图片，按照相似度排序
+    - 成功：
+    ```json
+    {
+        "code": 0,
+        "msg": "成功",
+        "data": [
+            {
+                "captureTime": "2019-04-13 16:21:00",
+                "fromSensorId": 1,
+                "imgId": 49604,
+                "imgUrl": "http://222.201.145.237:8080//reid/img/1832608662019_03_29_19_02_400.jpg",
+                "boxes": [
+                    [1,2,3,4],
+                    [1,2,3,4]
+                ]
+            },
+            {
+                "captureTime": "2019-04-13 16:21:00",
+                "fromSensorId": 1,
+                "imgId": 49603,
+                "imgUrl": "http://222.201.145.237:8080//reid/img/8923144312019_03_29_19_02_400.jpg",
+                "boxes": [
+                    [1,2,3,4],
+                    [1,2,3,4]
+                ]
+            }
+        ]
+    }
+    ```
+    
+#### API3.3
+目标检测，是对Django API3的一个封装，把本地地址替换成tomcat封装的URL
+
+- URL: http://222.201.145.237:8081/vision/detect_query
+  - Type: POST
+  - Content-type: multipart/form-data
+  - 参数: 
+    - queryImgUrl: 查询图片的url，要求已通过API1.5上传到服务器上
+   
+  - 返回值：一张已标记行人的整图，多张单人图片
+    - 成功：
+    ```json
+    {
+        "code": 0,
+        "msg": "成功",
+        "data": 
+            {
+                "annotate": "http://222.201.145.237:8080//reid/img/detect/queryxxxx.jpg",
+                "persons": [
+                   "/home/cwh/coding/reid_file_backend/detect/queryxxxx/0.jpg",
+                   "/home/cwh/coding/reid_file_backend/detect/queryxxxx/1.jpg",
+                   "/home/cwh/coding/reid_file_backend/detect/queryxxxx/2.jpg"
+                 ]
+            }
+        
+    }
+    ```
 
 ## 4. Alert
 #### API 4.1
