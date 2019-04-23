@@ -1,4 +1,4 @@
-## Dependency
+## Mini Deployment
 ### Install maven
 ```shell
 sudo apt-get install maven
@@ -19,6 +19,7 @@ mongo:
 use reid # create db
 db.createUser({user:"reid",pwd:"p2p543",roles:[{role:"dbAdmin",db:"reid"}]}) # create dateabase
 ```
+
 
 ## Deploy and Run
 ```shell
