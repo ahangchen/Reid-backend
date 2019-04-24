@@ -10,7 +10,7 @@ import scut.cwh.reid.repository.repo.WifiInfoRepo;
 import scut.cwh.reid.utils.ResultUtil;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.*;
 
 @CrossOrigin
 @Controller
@@ -36,7 +36,16 @@ public class WifiInfoController {
     @ResponseBody
     public Result findMacBySensorIdAndTime(@RequestParam Integer id, @RequestParam Date startTime, @RequestParam Date endTime) {
         //save img file to disk and store path info
-        return ResultUtil.success(wifiSensorRepository.findALLByCaptureTimeBetweenAndFromSensorId(startTime, endTime, id));
+        List<WifiInfo> wifiInfos = wifiSensorRepository.findALLByCaptureTimeBetweenAndFromSensorId(startTime, endTime, id);
+        List<WifiInfo> filterWifiInfos = new ArrayList<>();
+        Set<String> wifis = new HashSet<>();
+        for (WifiInfo wifiInfo: wifiInfos) {
+            if (!wifis.contains(wifiInfo.getMacAddress())) {
+                wifis.add(wifiInfo.getMacAddress());
+                filterWifiInfos.add(wifiInfo);
+            }
+        }
+        return ResultUtil.success(filterWifiInfos);
     }
 
     @GetMapping(value = "/mac2st")
