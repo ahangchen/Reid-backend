@@ -17,7 +17,7 @@
   - ctrl为各个MongoRepository接口的具体使用，是一种纵向上的切分和解耦，推荐将MongoRepository的直接操作都放在这里，与[业务逻辑](src/main/java/scut/cwh/reid/api)分开
 
 ## Machine Reid功能
-- 由[Django Python服务端](https://git.so-link.org/ahangchen/deep-reid-backend)实现，通过Web API进行交互，请参照该项目说明进行配置
+- 由[Django Python服务端](https://git.so-link.org/ahangchen/deep_reid_backend)实现，通过Web API进行交互，请参照该项目说明进行配置
 
 ## 编译运行
 ```shell
