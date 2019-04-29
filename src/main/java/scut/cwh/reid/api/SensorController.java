@@ -47,7 +47,7 @@ public class SensorController{
         return ResultUtil.success(sensorRepository.save(sensor));
     }
 
-    @GetMapping(value="cnt")
+    @GetMapping(value="/cnt")
     public @ResponseBody
     Result sensorCount() {
         return ResultUtil.success(SensorManager.getMaxSensorId(sensorRepository));
