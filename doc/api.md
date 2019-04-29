@@ -87,11 +87,27 @@
       "data":"http://222.201.145.237:8888/img/rasp-wifi.png"
     }
     ```
+#### API1.5.1
+前端上传任意文件，后端返回一个URL
+  - URL: http://222.201.145.237:8081/file/other
+  - Type: POST
+  - Content-type: multipart/form-data
+  - 参数: 
+    - file: 文件二进制流 
+  - 返回值：
+    - 成功：
     
+    ```json
+    {
+      "code":0,
+      "msg":"成功",
+      "data":"http://222.201.145.237:8888/img/rasp-wifi.png"
+    }
+    ```
 
 #### API1.6
 新增单个传感器信息
- - URL: http://222.201.145.237:8081/sensor/setting
+ - URL: http://222.201.145.237:8081/sensor/record
   - Type: POST
   - Content-type: application/json
   - 参数: json格式
@@ -103,6 +119,7 @@
 	"latitude": 40.0,
 	"longitude": 110.0,
 	"type": "mp4",
+	"remoteUrl": "http://222.201.145.237:8081/video/1.mp4",
 	"desp": "中大东门口"
   }
   ```
@@ -120,10 +137,13 @@
         "code": 0,
         "msg": "成功",
         "data": {
-            "id": 1,
-            "latitude": 40,
-            "longitude": 110,
-            "macAddress": "00:11:22:33:44:66"
+            "id": "1",
+            "macAddress": "00:11:22:33:44:66",
+            "latitude": 40.0,
+            "longitude": 110.0,
+            "type": "mp4",
+            "remoteUrl": "http://222.201.145.237:8081/video/1.mp4",
+            "desp": "中大东门口"
         }
     }
     ```
@@ -147,7 +167,123 @@
     ```
 - data即最大图片id
     
+#### API1.8
+修改单个传感器信息
+ - URL: http://222.201.145.237:8081/sensor/modify
+  - Type: POST
+  - Content-type: application/json
+  - 参数: json格式
+  
+  ```json
+  {
+	"id": "1",
+	"macAddress": "00:11:22:33:44:66",
+	"latitude": 40.0,
+	"longitude": 110.0,
+	"type": "mp4",
+	"remoteUrl": "http://222.201.145.237:8081/video/1.mp4",
+	"desp": "中大东门口"
+  }
+  ```
+    - macAddress: 传感器上一个无线网卡的mac地址
+    - id: 传感器id，一个整数，范围[0,2^32)
+    - latitude: 传感器所在纬度
+    - longitude: 传感器所在经度
+    - type: 传感器类型，字符串，"mp4"类型在前端展示为可播放的视频，"img_seq"类型在前端展示为最新的n张图片轮播
+    - desp: 传感器描述，字符串
+    - remoteUrl: 传感器资源地址
+  - 返回值:
+    - 写入成功
+    
+    ```json
+    {
+        "code": 0,
+        "msg": "成功",
+        "data": {
+            "id": "1",
+            "macAddress": "00:11:22:33:44:66",
+            "latitude": 40.0,
+            "longitude": 110.0,
+            "type": "mp4",
+            "remoteUrl": "http://222.201.145.237:8081/video/1.mp4",
+            "desp": "中大东门口"
+        }
+    }
+    ```
 
+#### API1.9 删除单个传感器
+- URL: http://222.201.145.237:8081/sensor/delete?id=1
+- Type: POST
+- Content-type: multi-part/form-data
+- 参数: 
+  - id: 传感器id
+
+- 返回值:
+- 写入成功
+
+```json
+{
+    "code": 0,
+    "msg": "成功",
+    "data": {}
+}
+```
+
+#### API1.10 查询某类传感器
+- URL: http://222.201.145.237:8081/sensor/list/type?type=mp4
+- Type: POST
+- Content-type: multi-part/form-data
+- 参数: 
+  - type: 传感器类型，字符串，如mp4, img_seq
+
+- 返回值:
+- 写入成功
+
+```json
+{
+    "code": 0,
+    "msg": "成功",
+    "data": [
+        {
+            "id": 0,
+            "latitude": 40.5,
+            "longitude": 110.7,
+            "macAddress": "00:11:22:33:44:66",
+            "type": "mp4",
+            "remoteUrl": "http://222.201.145.237:8081/video/1.mp4",
+            "desp": "中大东门口"
+        },
+        {
+            "id": 1,
+            "latitude": 39.3,
+            "longitude": 110.5,
+            "macAddress": "02:11:22:33:44:66",
+            "type": "mp4",
+            "remoteUrl": "http://222.201.145.237:8081/video/2.mp4",
+            "desp": "中大东门口"
+        },
+        {
+            "id": 2,
+            "latitude": 40.2,
+            "longitude": 110.1,
+            "remoteUrl": "http://222.201.145.237:8081/video/3.mp4",  
+            "macAddress": "03:11:22:33:44:66",
+            "type": "mp4",
+            "desp": "中大东门口"
+        },
+        {
+            "id": 3,
+            "latitude": 41.2,
+            "longitude": 111.1,
+            "macAddress": "04:11:22:33:44:66",
+            "remoteUrl": "http://222.201.145.237:8081/video/1.mp4",
+            "type": "mp4",
+            "desp": "中大东门口"
+        }
+    ]
+}
+```
+    
 ## 2.Web 检索
 #### API2.1
 前端获取后端的传感器列表
@@ -170,6 +306,7 @@
             "longitude": 110.7,
             "macAddress": "00:11:22:33:44:66",
             "type": "mp4",
+            "remoteUrl": "http://222.201.145.237:8081/video/1.mp4",
             "desp": "中大东门口"
         },
         {
@@ -178,12 +315,14 @@
             "longitude": 110.5,
             "macAddress": "02:11:22:33:44:66",
             "type": "mp4",
+            "remoteUrl": "http://222.201.145.237:8081/video/2.mp4",
             "desp": "中大东门口"
         },
         {
             "id": 2,
             "latitude": 40.2,
             "longitude": 110.1,
+            "remoteUrl": "http://222.201.145.237:8081/video/3.mp4",  
             "macAddress": "03:11:22:33:44:66",
             "type": "mp4",
             "desp": "中大东门口"
@@ -193,6 +332,7 @@
             "latitude": 41.2,
             "longitude": 111.1,
             "macAddress": "04:11:22:33:44:66",
+            "remoteUrl": "http://222.201.145.237:8081/video/1.mp4",
             "type": "mp4",
             "desp": "中大东门口"
         }
