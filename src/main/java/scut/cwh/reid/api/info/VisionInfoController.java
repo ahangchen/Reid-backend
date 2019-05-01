@@ -101,12 +101,15 @@ public class VisionInfoController {
 
     @PostMapping(value="/topn")
     @ResponseBody
-    public Result queryTopN(@RequestParam String queryUrl) {
+    public Result queryTopN(@RequestParam String queryUrl, @RequestParam int origin) {
         String queryImgPath = FileUtils.url2Path(queryUrl, fsp);
 //        return ResultUtil.success(queryImgPath);
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("img_path", queryImgPath);
         params.put("n", "100");
+        if(origin == 1) {
+            params.put("origin", "1");
+        }
         String resultJson = NetworkUtils.postForm(djangoServerProperties.getTopnApi(), params);
 //        return ResultUtil.success(resultJson);
         TopNResp topNResp = new Gson().fromJson(resultJson, TopNResp.class);
@@ -115,7 +118,7 @@ public class VisionInfoController {
 
     @PostMapping(value="/fusion_topn")
     @ResponseBody
-    public Result fusionTopN(@RequestParam String queryUrl, @RequestParam String camera, @RequestParam String time) {
+    public Result fusionTopN(@RequestParam String queryUrl, @RequestParam String camera, @RequestParam String time, @RequestParam int origin) {
         String queryImgPath = FileUtils.url2Path(queryUrl, fsp);
 //        return ResultUtil.success(queryImgPath);
         HashMap<String, String> params = new HashMap<String, String>();
@@ -123,6 +126,9 @@ public class VisionInfoController {
         params.put("n", "100");
         params.put("c", camera);
         params.put("t", time);
+        if(origin == 1) {
+            params.put("origin", "1");
+        }
         String resultJson = NetworkUtils.postForm(djangoServerProperties.getFusionTopnApi(), params);
 //        return ResultUtil.success(resultJson);
         TopNResp topNResp = new Gson().fromJson(resultJson, TopNResp.class);
