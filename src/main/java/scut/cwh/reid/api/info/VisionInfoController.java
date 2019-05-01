@@ -106,7 +106,7 @@ public class VisionInfoController {
 //        return ResultUtil.success(queryImgPath);
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("img_path", queryImgPath);
-        params.put("n", "20");
+        params.put("n", "100");
         String resultJson = NetworkUtils.postForm(djangoServerProperties.getTopnApi(), params);
 //        return ResultUtil.success(resultJson);
         TopNResp topNResp = new Gson().fromJson(resultJson, TopNResp.class);
@@ -120,7 +120,7 @@ public class VisionInfoController {
 //        return ResultUtil.success(queryImgPath);
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("img_path", queryImgPath);
-        params.put("n", "20");
+        params.put("n", "100");
         params.put("c", camera);
         params.put("t", time);
         String resultJson = NetworkUtils.postForm(djangoServerProperties.getFusionTopnApi(), params);
